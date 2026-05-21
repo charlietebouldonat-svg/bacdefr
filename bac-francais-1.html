@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bac de Français</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1a1410;--paper:#f4ede0;--pd:#e8dec8;--gold:#b8893a;--rust:#a8472a;--sage:#5a6b47;--line:#c9b896;--sh:rgba(26,20,16,0.08);}
+*{margin:0;padding:0;box-sizing:border-box;}html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;}
+header{background:var(--ink);color:var(--paper);padding:2.2rem 1.2rem 1.8rem;text-align:center;border-bottom:4px double var(--gold);}
+.hl{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.85rem;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;margin-bottom:0.5rem;}
+h1{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(1.7rem,5.5vw,2.8rem);line-height:1.05;margin-bottom:0.5rem;}
+h1 em{color:var(--gold);}
+.sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.95rem;color:rgba(244,237,224,0.7);}
+.tabs{position:sticky;top:0;background:var(--paper);border-bottom:1px solid var(--line);z-index:100;display:flex;overflow-x:auto;box-shadow:0 2px 8px var(--sh);scrollbar-width:none;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{flex:1;min-width:75px;padding:0.75rem 0.2rem;background:none;border:none;font-family:'Inter',sans-serif;font-size:0.65rem;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink);cursor:pointer;transition:all 0.3s;border-bottom:3px solid transparent;opacity:0.5;}
+.tab.active{opacity:1;border-bottom-color:var(--rust);}
+.tab .tn{display:block;font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-style:italic;color:var(--gold);margin-bottom:0.05rem;}
+main{max-width:780px;margin:0 auto;padding:1.5rem 1rem 5rem;}
+.panel{display:none;animation:fi 0.4s ease;}
+.panel.active{display:block;}
+@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.fh{text-align:center;margin-bottom:1.8rem;padding:1.4rem 1rem;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.fn{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.82rem;color:var(--rust);letter-spacing:0.3em;text-transform:uppercase;margin-bottom:0.3rem;}
+.ft{font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,4vw,2.2rem);font-weight:500;line-height:1.1;margin-bottom:0.4rem;}
+.fd{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--ink);opacity:0.7;font-size:0.95rem;}
+h2{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:500;margin:1.8rem 0 0.7rem;padding-bottom:0.35rem;border-bottom:2px solid var(--gold);}
+h2 .n{font-style:italic;color:var(--gold);margin-right:0.3rem;}
+h3{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;margin:1.3rem 0 0.5rem;color:var(--rust);}
+p{margin-bottom:0.7rem;font-size:0.93rem;}
+strong{font-weight:600;}em{font-family:'Cormorant Garamond',serif;font-style:italic;}
+.qb{background:var(--pd);padding:0.9rem 1.1rem;margin:0.9rem 0;border-left:3px solid var(--gold);font-family:'Cormorant Garamond',serif;font-size:0.98rem;font-style:italic;line-height:1.6;}
+.kr{background:var(--ink);color:var(--paper);padding:1.1rem 1.1rem;margin:1.1rem 0;border-radius:2px;position:relative;}
+.kr::before{content:"★";position:absolute;top:-9px;left:0.9rem;background:var(--gold);color:var(--ink);width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.7rem;}
+.kr strong{color:var(--gold);}
+.tw{overflow-x:auto;margin:0.9rem 0;border:1px solid var(--line);border-radius:3px;}
+table{width:100%;border-collapse:collapse;background:var(--paper);}
+th{background:var(--ink);color:var(--paper);padding:0.65rem 0.75rem;text-align:left;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;font-size:0.88rem;}
+td{padding:0.55rem 0.75rem;border-bottom:1px solid var(--line);font-size:0.86rem;vertical-align:top;line-height:1.5;}
+tr:last-child td{border-bottom:none;}
+tr:nth-child(even){background:rgba(201,184,150,0.1);}
+.btn{background:var(--ink);color:var(--paper);border:none;padding:0.55rem 1.1rem;font-family:'Inter',sans-serif;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;margin-top:0.6rem;border-radius:2px;transition:all 0.2s;font-weight:500;}
+.btn:hover{background:var(--rust);}
+.corr{display:none;margin-top:0.7rem;padding:0.8rem 0.9rem;background:rgba(90,107,71,0.1);border-left:3px solid var(--sage);border-radius:0 3px 3px 0;font-size:0.9rem;}
+.corr.shown{display:block;}
+.cl{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--sage);font-weight:600;margin-bottom:0.3rem;font-size:0.82rem;text-transform:uppercase;}
+/* FICHE TEXTE */
+.ft-card{background:var(--paper);border:1px solid var(--line);border-radius:4px;margin:0.8rem 0;overflow:hidden;box-shadow:0 2px 5px var(--sh);}
+.ft-head{background:var(--ink);color:var(--paper);padding:0.9rem 1.1rem;display:flex;align-items:center;justify-content:space-between;cursor:pointer;}
+.ft-head-title{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:500;}
+.ft-head-sub{font-size:0.72rem;opacity:0.7;margin-top:0.05rem;}
+.ft-arrow{font-size:1.1rem;transition:transform 0.3s;flex-shrink:0;}
+.ft-head.open .ft-arrow{transform:rotate(180deg);}
+.ft-body{display:none;padding:1.1rem;}
+.ft-body.open{display:block;}
+/* INTRO SECTIONS */
+.is{background:rgba(184,137,58,0.06);border:1px solid rgba(184,137,58,0.25);border-radius:3px;padding:0.85rem;margin:0.6rem 0;}
+.il{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--gold);font-weight:600;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.3rem;}
+.ic{font-size:0.9rem;line-height:1.6;}
+/* ANALYSE TABLE */
+.at th{background:var(--rust);}
+.mv{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;margin:1rem 0 0.4rem;padding:0.45rem 0.75rem;background:var(--pd);border-left:3px solid var(--rust);border-radius:0 3px 3px 0;}
+.tb{background:rgba(90,107,71,0.07);border:1px dashed var(--sage);border-radius:3px;padding:0.7rem;margin:0.7rem 0;font-size:0.86rem;}
+.tbl{font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--sage);font-size:0.78rem;font-weight:600;text-transform:uppercase;margin-bottom:0.25rem;}
+.cs{background:rgba(26,20,16,0.04);border:1px solid var(--line);border-radius:3px;padding:0.85rem;margin:0.6rem 0;}
+.csl{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;font-size:0.8rem;text-transform:uppercase;margin-bottom:0.25rem;}
+/* GENRE TABS */
+.gtabs{display:flex;gap:0.3rem;margin:1rem 0 0.7rem;overflow-x:auto;scrollbar-width:none;padding-bottom:0.2rem;flex-wrap:wrap;}
+.gtabs::-webkit-scrollbar{display:none;}
+.gb{flex-shrink:0;background:none;border:1px solid var(--line);padding:0.38rem 0.75rem;font-family:'Inter',sans-serif;font-size:0.78rem;cursor:pointer;border-radius:20px;color:var(--ink);transition:all 0.2s;}
+.gb.active{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+.gc{display:none;}
+.gc.active{display:block;}
+/* VOCAB CARDS */
+.vg{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:0.55rem;margin:0.9rem 0;}
+.vc{background:var(--paper);border:1px solid var(--line);padding:0.8rem;border-radius:3px;cursor:pointer;transition:all 0.3s;min-height:70px;display:flex;align-items:center;}
+.vc:hover{background:var(--pd);transform:translateY(-1px);}
+.vc .vf,.vc .vb{width:100%;}
+.vc .vb{display:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.92rem;line-height:1.4;}
+.vc.fl .vf{display:none;}
+.vc.fl .vb{display:block;}
+.vc.fl{background:var(--ink);color:var(--paper);border-color:var(--gold);}
+.vt{font-weight:600;font-size:0.88rem;margin-bottom:0.12rem;}
+.vh{font-size:0.7rem;color:var(--gold);letter-spacing:0.08em;text-transform:uppercase;}
+/* FORMULE */
+.fc{background:var(--paper);border:1px solid var(--line);padding:0.85rem;border-radius:3px;cursor:pointer;transition:all 0.3s;min-height:75px;display:flex;align-items:center;margin-bottom:0.45rem;}
+.fc:hover{background:var(--pd);}
+.fc .ff,.fc .fb{width:100%;}
+.fc .fb{display:none;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.93rem;line-height:1.5;}
+.fc.fl .ff{display:none;}
+.fc.fl .fb{display:block;}
+.fc.fl{background:var(--ink);color:var(--paper);border-color:var(--gold);}
+.fp{font-size:0.7rem;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.18rem;font-weight:500;}
+.ftt{font-family:'Cormorant Garamond',serif;font-size:0.97rem;}
+/* CHECKLIST */
+.cl-box{background:var(--paper);border:1px solid var(--line);border-radius:3px;padding:0.9rem;margin:0.9rem 0;}
+.ci{display:flex;align-items:flex-start;gap:0.55rem;padding:0.45rem 0;border-bottom:1px dashed var(--line);cursor:pointer;user-select:none;}
+.ci:last-child{border-bottom:none;}
+.cb{width:17px;height:17px;border:2px solid var(--ink);flex-shrink:0;border-radius:2px;margin-top:2px;position:relative;transition:all 0.2s;}
+.ci.done .cb{background:var(--sage);border-color:var(--sage);}
+.ci.done .cb::after{content:"✓";position:absolute;color:var(--paper);font-size:0.78rem;top:50%;left:50%;transform:translate(-50%,-50%);}
+.ci.done .ct{opacity:0.5;text-decoration:line-through;}
+.ct{font-size:0.88rem;}
+/* TIMER */
+.tw-t{background:var(--ink);color:var(--paper);padding:1.1rem;border-radius:3px;text-align:center;margin:1.1rem 0;border:2px solid var(--gold);}
+.td{font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:500;color:var(--gold);margin:0.35rem 0;}
+.tc{display:flex;gap:0.35rem;justify-content:center;flex-wrap:wrap;}
+.tb2{background:transparent;border:1px solid var(--paper);color:var(--paper);padding:0.38rem 0.75rem;cursor:pointer;font-family:'Inter',sans-serif;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;border-radius:2px;}
+.tb2:hover{background:var(--paper);color:var(--ink);}
+/* SCORE */
+.sb{background:var(--pd);border-radius:20px;height:9px;margin:0.35rem 0 0.7rem;overflow:hidden;}
+.sf{height:100%;background:var(--sage);border-radius:20px;transition:width 0.5s;}
+.st{font-size:0.78rem;color:var(--sage);font-weight:600;}
+/* COMPARE */
+.cmp{display:grid;grid-template-columns:1fr;gap:0.55rem;margin:0.9rem 0;}
+@media(min-width:550px){.cmp{grid-template-columns:1fr 1fr;}}
+.cb2{padding:0.8rem;border-radius:3px;font-size:0.88rem;}
+.bad{background:rgba(168,71,42,0.08);border-left:3px solid var(--rust);}
+.good{background:rgba(90,107,71,0.08);border-left:3px solid var(--sage);}
+.clb{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.35rem;display:block;}
+.bad .clb{color:var(--rust);}
+.good .clb{color:var(--sage);}
+/* CITATION */
+.cit{background:var(--pd);padding:0.8rem 1rem;border-radius:3px;margin:0.6rem 0;border-left:3px solid var(--gold);}
+.cit h4{font-family:'Cormorant Garamond',serif;font-size:0.97rem;margin-bottom:0.35rem;color:var(--rust);}
+.cit ul{list-style:none;padding-left:0;}
+.cit li{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.92rem;padding:0.22rem 0;border-bottom:1px dotted var(--line);}
+.cit li:last-child{border-bottom:none;}
+.cit li::before{content:"« ";color:var(--gold);}
+.cit li::after{content:" »";color:var(--gold);}
+/* AUTEUR CARD */
+.ac{background:var(--paper);border:1px solid var(--line);border-radius:4px;margin:0.8rem 0;overflow:hidden;}
+.ac-head{background:var(--rust);color:var(--paper);padding:0.85rem 1.1rem;display:flex;align-items:center;justify-content:space-between;cursor:pointer;}
+.ac-title{font-family:'Cormorant Garamond',serif;font-size:1.02rem;font-weight:500;}
+.ac-sub{font-size:0.7rem;opacity:0.8;margin-top:0.05rem;}
+.ac-arrow{font-size:1.1rem;transition:transform 0.3s;}
+.ac-head.open .ac-arrow{transform:rotate(180deg);}
+.ac-body{display:none;padding:1rem;}
+.ac-body.open{display:block;}
+.pb{position:fixed;top:0;left:0;height:3px;background:var(--rust);z-index:200;transition:width 0.1s;width:0%;}
+.st-btn{position:fixed;bottom:1.1rem;right:1.1rem;width:38px;height:38px;background:var(--ink);color:var(--paper);border:none;border-radius:50%;cursor:pointer;opacity:0;transition:all 0.3s;z-index:99;font-size:0.95rem;}
+.st-btn.vis{opacity:1;}
+footer{text-align:center;padding:1.8rem 1rem;background:var(--ink);color:var(--paper);font-family:'Cormorant Garamond',serif;font-style:italic;margin-top:3rem;}
+footer .fq{font-size:1.05rem;margin-bottom:0.35rem;}
+footer .fa{color:var(--gold);font-size:0.82rem;}
+</style>
+</head>
+<body>
+<div class="pb" id="pb"></div>
+<header>
+  <div class="hl">Programme de Révision</div>
+  <h1>Bac de <em>Français</em></h1>
+  <p class="sub">Tuer la paraphrase. Maîtriser le vocabulaire. Réussir le jour J.</p>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" data-panel="fiches"><span class="tn">I</span>Fiches textes</button>
+  <button class="tab" data-panel="methode"><span class="tn">II</span>Méthode</button>
+  <button class="tab" data-panel="vocab"><span class="tn">III</span>Vocabulaire</button>
+  <button class="tab" data-panel="flash"><span class="tn">IV</span>Flashcards</button>
+  <button class="tab" data-panel="contexte"><span class="tn">V</span>Auteurs & Siècles</button>
+  <button class="tab" data-panel="outils"><span class="tn">VI</span>Outils</button>
+</nav>
+
+<main>
+
+<!-- ===== I : FICHES TEXTES ===== -->
+<section class="panel active" id="fiches">
+  <div class="fh">
+    <div class="fn">Fiche I</div>
+    <div class="ft">Fiches par texte</div>
+    <div class="fd">Source : commentaire-compose.fr — clique pour ouvrir</div>
+  </div>
+
+  <div class="gtabs">
+    <button class="gb active" data-genre="rim">🌹 Rimbaud</button>
+    <button class="gb" data-genre="ces">Césaire</button>
+    <button class="gb" data-genre="pre">📖 Prévost</button>
+    <button class="gb" data-genre="laf">Lafayette</button>
+    <button class="gb" data-genre="mus">🎭 Musset</button>
+    <button class="gb" data-genre="lab">La Boétie</button>
+    <button class="gb" data-genre="vol">Voltaire</button>
+  </div>
+
+  <!-- RIMBAUD -->
+  <div class="gc active" data-genre="rim">
+
+    <!-- DORMEUR DU VAL -->
+    <div class="ft-card">
+      <div class="ft-head" onclick="toggleFT(this)">
+        <div><div class="ft-head-title">Le Dormeur du val</div><div class="ft-head-sub">Rimbaud — Cahiers de Douai, 1870</div></div>
+        <div class="ft-arrow">▼</div>
+      </div>
+      <div class="ft-body">
+        <h3>INTRODUCTION</h3>
+        <div class="is"><div class="il">Amorce</div><div class="ic">Le XIXe siècle est marqué par le Romantisme et ses bouleversements politiques, notamment la guerre franco-prussienne de 1870. C'est dans ce contexte qu'Arthur Rimbaud, poète maudit de seize ans et génie précoce du Symbolisme, compose en 1870 les <em>Cahiers de Douai</em>, recueil de vingt-deux poèmes écrits pendant ses fugues. C'est l'histoire d'un jeune poète révolté qui découvre les horreurs de la guerre et cherche à les dénoncer par la poésie.</div></div>
+        <div class="is"><div class="il">Présentation du texte</div><div class="ic">L'extrait que nous étudions est le poème <em>Le Dormeur du val</em>, issu des <em>Cahiers de Douai</em>. Il s'agit d'un sonnet en alexandrins où le lecteur découvre progressivement le corps d'un jeune soldat allongé dans la nature, qui semble dormir mais qui est en réalité mort.</div></div>
+        <div class="is"><div class="il">Problématique</div><div class="ic"><strong>Dès lors, nous nous demanderons comment Rimbaud transforme-t-il un tableau bucolique en une dénonciation subtile et efficace des atrocités de la guerre.</strong></div></div>
+        <div class="is"><div class="il">Annonce du plan</div><div class="ic">Pour répondre à cette question, notre analyse suivra trois mouvements : tout d'abord nous verrons qu'il installe un <strong>décor bucolique empli de quiétude</strong>, puis nous analyserons <strong>l'ambiguïté progressive du soldat endormi</strong>, et enfin nous étudierons <strong>la chute tragique et son efficacité de dénonciation</strong>.</div></div>
+
+        <h3>DÉVELOPPEMENT</h3>
+        <div class="mv">Mouvement 1 — Un décor bucolique empli de quiétude (quatrain 1)</div>
+        <div class="tw"><table class="at">
+          <thead><tr><th>Procédé</th><th>Citation</th><th>Ce que ça souligne</th><th>Interprétation</th></tr></thead>
+          <tbody>
+            <tr><td>Personnification</td><td>« où chante une rivière »</td><td>La nature vivante et joyeuse</td><td>La nature est un refuge maternel — elle va servir d'écrin trompeur à la mort</td></tr>
+            <tr><td>Rejet</td><td>« des haillons / D'argent »</td><td>Les reflets lumineux mis en valeur</td><td>La lumière éblouit pour mieux masquer la réalité tragique</td></tr>
+            <tr><td>Champ lexical nature</td><td>« verdure », « rivière », « herbes », « soleil »</td><td>L'omniprésence de la nature</td><td>Un havre de paix qui contraste violemment avec la mort finale</td></tr>
+            <tr><td>Adverbe expressif</td><td>« accrochant follement »</td><td>Le mouvement festif de la nature</td><td>La nature fait une ronde joyeuse — contraste futur avec l'immobilité du soldat</td></tr>
+          </tbody>
+        </table></div>
+
+        <div class="tb"><div class="tbl">Transition → Mouvement 2</div>Si ce premier quatrain nous plongeait dans un havre de paix lumineux et vivant, l'extrait gagne en intensité en introduisant soudainement un personnage humain. L'irruption du mot « soldat » marque un tournant décisif dans le registre du poème.</div>
+
+        <div class="mv">Mouvement 2 — L'ambiguïté du soldat endormi (quatrain 2 + tercet 1)</div>
+        <div class="tw"><table class="at">
+          <thead><tr><th>Procédé</th><th>Citation</th><th>Ce que ça souligne</th><th>Interprétation</th></tr></thead>
+          <tbody>
+            <tr><td>Déterminant indéfini</td><td>« Un soldat »</td><td>Le soldat non individualisé</td><td>Portée universelle : il représente tous les soldats tombés</td></tr>
+            <tr><td>Champ lexical du sommeil (x3)</td><td>« dort », « étendu », « lit », « somme »</td><td>L'apparente sérénité</td><td>Rimbaud mène le lecteur sur une fausse piste pour mieux préparer la chute</td></tr>
+            <tr><td>Comparaison + conditionnel</td><td>« Souriant comme / Sourirait un enfant malade »</td><td>L'ambiguïté croissante</td><td>Le conditionnel introduit l'incertitude — premier signe de mort sous-jacent</td></tr>
+            <tr><td>Antithèse</td><td>« chaudement » // « il a froid »</td><td>La contradiction nature vivante / soldat immobile</td><td>Annonce la mort et prépare la chute finale</td></tr>
+            <tr><td>Apostrophe + impératif</td><td>« Nature, berce-le »</td><td>La nature personnifiée en mère protectrice</td><td>Rimbaud interpelle la nature — souligne l'abandon et la solitude du soldat mort</td></tr>
+          </tbody>
+        </table></div>
+
+        <div class="tb"><div class="tbl">Transition → Mouvement 3</div>Tandis que ce second mouvement soulignait l'ambiguïté d'un soldat qui semble dormir, le troisième vient la briser brutalement. La première négation totale du poème vient détruire l'illusion soigneusement construite.</div>
+
+        <div class="mv">Mouvement 3 — La chute tragique : dénonciation efficace (tercet 2)</div>
+        <div class="tw"><table class="at">
+          <thead><tr><th>Procédé</th><th>Citation</th><th>Ce que ça souligne</th><th>Interprétation</th></tr></thead>
+          <tbody>
+            <tr><td>Négation totale (1ère du poème)</td><td>« Les parfums ne font pas frissonner sa narine »</td><td>L'absence totale de vie</td><td>Litote : il ne respire plus — la mort se dit sans se nommer, dénonciation plus forte</td></tr>
+            <tr><td>Rejet + point brutal</td><td>« Tranquille. »</td><td>L'immobilité anormale</td><td>Le point après « Tranquille » surprend — prépare la chute finale par contraste</td></tr>
+            <tr><td>Euphémisme</td><td>« il a deux trous rouges au côté droit »</td><td>La mort par image picturale</td><td>La mort n'est jamais nommée — dénonciation d'autant plus forte qu'indirecte</td></tr>
+            <tr><td>Écho interne</td><td>« trous rouges » / « trou de verdure »</td><td>Le lien début-fin du poème</td><td>Oblige à relire tout le sonnet — la mort était présente dès le début</td></tr>
+          </tbody>
+        </table></div>
+
+        <h3>CONCLUSION</h3>
+        <div class="cs"><div class="csl">Synthèse</div><p>En conclusion, ce poème nous a montré comment Rimbaud transforme un tableau bucolique en dénonciation subtile de la guerre grâce à l'installation d'un décor idyllique trompeur, à l'ambiguïté progressive du soldat endormi, et à la chute finale qui oblige le lecteur à relire le poème entier sous un autre angle.</p></div>
+        <div class="cs"><div class="csl">Enjeu</div><p>L'enjeu est ici politique et éthique : Rimbaud cherche à provoquer l'indignation du lecteur non par la violence des mots mais par leur absence — c'est le silence autour de la mort qui dénonce le plus fort.</p></div>
+        <div class="cs"><div class="csl">Ouverture</div><p>On pourrait rapprocher ce sonnet du poème <em>Le Mal</em> de Rimbaud, issu du même recueil, qui traite également de la dénonciation de la guerre mais de manière frontale et virulente.</p></div>
+
+        <div class="cit"><h4>Citations clés</h4><ul>
+          <li>Il a deux trous rouges au côté droit</li>
+          <li>Un soldat jeune, bouche ouverte</li>
+          <li>Nature, berce-le chaudement</li>
+          <li>Souriant comme sourirait un enfant malade</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <!-- MA BOHEME -->
+    <div class="ft-card">
+      <div class="ft-head" onclick="toggleFT(this)">
+        <div><div class="ft-head-title">Ma Bohème</div><div class="ft-head-sub">Rimbaud — Cahiers de Douai, 1870</div></div>
+        <div class="ft-arrow">▼</div>
+      </div>
+      <div class="ft-body">
+        <h3>INTRODUCTION</h3>
+        <div class="is"><div class="il">Amorce</div><div class="ic">Le XIXe siècle est marqué par le Romantisme et la quête de liberté individuelle contre les contraintes bourgeoises. C'est dans ce contexte qu'Arthur Rimbaud, poète maudit de seize ans, compose en 1870 les <em>Cahiers de Douai</em> pendant ses fugues. C'est l'histoire d'un jeune poète révolté qui fuit la pesanteur familiale pour trouver l'inspiration dans le vagabondage.</div></div>
+        <div class="is"><div class="il">Présentation du texte</div><div class="ic">L'extrait que nous étudions est le poème <em>Ma Bohème</em>, qui clôt le second cahier. Il s'agit d'un sonnet en alexandrins où Rimbaud se dépeint en vagabond aux poches trouées, marchant sous les étoiles et composant des rimes — la pauvreté devient condition poétique idéale.</div></div>
+        <div class="is"><div class="il">Problématique</div><div class="ic"><strong>Dès lors, nous nous demanderons comment Rimbaud transfigure-t-il la misère en condition poétique idéale.</strong></div></div>
+        <div class="is"><div class="il">Annonce du plan</div><div class="ic">Pour répondre à cette question, notre analyse suivra trois mouvements : tout d'abord nous verrons <strong>l'espiègle vagabond dévoué à la Muse</strong>, puis nous analyserons <strong>le Petit-Poucet heureux à la belle étoile</strong>, et enfin nous étudierons <strong>la lyre faite de lacets, parodie des symboles poétiques</strong>.</div></div>
+
+        <h3>DÉVELOPPEMENT</h3>
+        <div class="mv">Mouvement 1 — L'espiègle vagabond (v.1-5)</div>
+        <div class="tw"><table class="at">
+          <thead><tr><th>Procédé</th><th>Citation</th><th>Ce que ça souligne</th><th>Interprétation</th></tr></thead>
+          <tbody>
+            <tr><td>Double sens / humour</td><td>« mon paletot aussi devenait idéal »</td><td>L'autodérision sur la pauvreté</td><td>Manteau si usé qu'il n'en reste qu'une « idée » — Rimbaud ennoblit la misère par l'humour</td></tr>
+            <tr><td>Enjambement interne</td><td>« les poings dans / mes poches crevées »</td><td>La perturbation du rythme classique</td><td>Rimbaud malmène l'alexandrin — forme qui mime l'espièglerie du contenu</td></tr>
+            <tr><td>Exclamation décalée</td><td>« Oh ! là ! là ! »</td><td>Le langage courant dans l'alexandrin</td><td>Désinvolture envers les codes poétiques classiques — autodérision revendiquée</td></tr>
+            <tr><td>Invocation de la Muse</td><td>« Muse ! et j'étais ton féal »</td><td>La référence ironique à la tradition</td><td>Cliché poétique convoqué de façon espiègle — il s'en moque tout en l'assumant</td></tr>
+          </tbody>
+        </table></div>
+
+        <div class="tb"><div class="tbl">Transition → Mouvement 2</div>Si ce premier mouvement montrait un vagabond désinvolte et ironique, la suite se tourne vers une communion plus profonde avec la nature nocturne. Ce basculement s'opère par l'introduction du « Petit-Poucet rêveur ».</div>
+
+        <div class="mv">Mouvement 2 — Un Petit-Poucet à la belle étoile (v.6-11)</div>
+        <div class="tw"><table class="at">
+          <thead><tr><th>Procédé</th><th>Citation</th><th>Ce que ça souligne</th><th>Interprétation</th></tr></thead>
+          <tbody>
+            <tr><td>Référence au conte</td><td>« Petit-Poucet rêveur »</td><td>Le poète = enfant perdu qui sème des rimes</td><td>Au lieu de cailloux, il sème des vers — le vagabondage EST la création poétique</td></tr>
+            <tr><td>Rejet</td><td>« j'égrenais dans ma course / Des rimes »</td><td>Les rimes mises en valeur</td><td>Les rimes rejetées du vers comme les cailloux jetés — forme qui mime le sens</td></tr>
+            <tr><td>Personnification + possessif</td><td>« Mes étoiles au ciel avaient un doux frou-frou »</td><td>La nature complice et personnelle</td><td>La nature répond au poète et lui appartient — interlocutrice intime</td></tr>
+            <tr><td>Comparaison</td><td>« comme un vin de vigueur »</td><td>La rosée qui nourrit et enivre</td><td>La nature est source d'inspiration physique et poétique à la fois</td></tr>
+          </tbody>
+        </table></div>
+
+        <div class="tb"><div class="tbl">Transition → Mouvement 3</div>Après avoir exploré cette communion nocturne, l'extrait gagne en espièglerie avec la chute parodique. L'irruption des « élastiques » de souliers marque un tournant comique et symbolique.</div>
+
+        <div class="mv">Mouvement 3 — La lyre faite de lacets : parodie (v.12-14)</div>
+        <div class="tw"><table class="at">
+          <thead><tr><th>Procédé</th><th>Citation</th><th>Ce que ça souligne</th><th>Interprétation</th></tr></thead>
+          <tbody>
+            <tr><td>Comparaison parodique</td><td>« Comme des lyres, je tirais les élastiques / De mes souliers blessés »</td><td>La lyre ridiculisée par les lacets</td><td>Noble symbole poétique rabaissé à l'objet trivial — moquerie de la poésie traditionnelle</td></tr>
+            <tr><td>Double sens</td><td>« un pied près de mon cœur »</td><td>Pied du corps + pied poétique</td><td>En une image, Rimbaud unit marche et poésie — vagabondage et création ne font qu'un</td></tr>
+            <tr><td>Écho interne</td><td>« poches crevées » (v.1) / « souliers blessés » (v.14)</td><td>L'usure encadre le poème</td><td>La pauvreté est omniprésente mais jamais tragique — condition de la liberté créatrice</td></tr>
+          </tbody>
+        </table></div>
+
+        <h3>CONCLUSION</h3>
+        <div class="cs"><div class="csl">Synthèse</div><p>En conclusion, ce sonnet nous a montré comment Rimbaud transfigure la misère en condition poétique idéale grâce à l'autodérision espiègle, à la communion avec la nature nocturne, et à la chute parodique qui unit marche et création.</p></div>
+        <div class="cs"><div class="csl">Enjeu</div><p>L'enjeu est ici esthétique : Rimbaud propose une poétique de la liberté totale où le dénuement matériel est la condition même de l'inspiration — contre la poésie bourgeoise et conformiste.</p></div>
+        <div class="cs"><div class="csl">Ouverture</div><p>On pourrait rapprocher ce poème du <em>Dormeur du val</em>, même année, registre opposé : là où <em>Ma Bohème</em> célèbre la liberté, le <em>Dormeur</em> montre que la guerre brise toute liberté.</p></div>
+
+        <div class="cit"><h4>Citations clés</h4><ul>
+          <li>Mon paletot aussi devenait idéal</li>
+          <li>Petit-Poucet rêveur</li>
+          <li>Mes étoiles au ciel avaient un doux frou-frou</li>
+          <li>un pied près de mon cœur</li>
+        </ul></div>
+      </div>
+    </div>
+
+    <!-- VENUS -->
+    <div class="ft-card">
+      <div class="ft-head" onclick="toggleFT(this)">
+        <div><div class="ft-head-title">Vénus Anadyomène</div><div class="ft-head-sub">Rimbaud — Cahiers de Douai, 1870</div></div>
+        <div class="ft-arrow">▼</div>
+      </div>
+      <div class="ft-body">
+        <h3>INTRODUCTION</h3>
+        <div class="is"><div class="il">Amorce</div><div class="ic">Le XIXe siècle est marqué par le Parnasse, mouvement qui prône le culte de la beauté formelle et l'objectivité en réaction au lyrisme romantique. C'est dans ce contexte qu'Arthur Rimbaud, influencé par la revue <em>Le Parnasse contemporain</em>, compose en 1870 <em>Vénus Anadyomène</em>. C'est un poème qui revisite le mythe de la déesse de l'amour pour mieux le détruire et proposer une esthétique nouvelle.</div></div>
+        <div class="is"><div class="il">Présentation du texte</div><div class="ic">L'extrait que nous étudions est ce sonnet issu des <em>Cahiers de Douai</em>. Il s'agit d'un anti-portrait de Vénus où Rimbaud décrit une femme sortant d'une vieille baignoire de façon triviale et crue, parodiant les célèbres tableaux de la naissance de Vénus (Botticelli, Cabanel 1863).</div></div>
+        <div class="is"><div class="il">Problématique</div><div class="ic"><strong>Dès lors, nous nous demanderons comment Rimbaud réalise-t-il un anti-portrait parodique de Vénus pour proposer une poésie nouvelle.</strong></div></div>
+        <div class="is"><div class="il">Annonce du plan</div><div class="ic">Pour répondre à cette question, notre analyse suivra trois mouvements : tout d'abord nous verrons <strong>le contre-blason et la dépréciation de Vénus</strong>, puis nous analyserons <strong>la parodie des tableaux de la naissance de Vénus</strong>, et enfin nous étudierons <strong>la proposition d'une esthétique nouvelle parnassienne</strong>.</div></div>
+
+        <h3>DÉVELOPPEMENT</h3>
+        <div class="mv">Mouvement 1 — Le contre-blason : dépréciation de Vénus</div>
+        <div class="tw"><table class="at">
+          <thead><tr><th>Procédé</th><th>Citation</th><th>Ce que ça souligne</th><th>Interprétation</th></tr></thead>
+          <tbody>
+            <tr><td>Contre-blason (corps de haut en bas)</td><td>« col », « omoplates », « reins », « échine », « anus »</td><td>La tradition du blason détournée</td><td>Structure du blason reprise pour mieux la détruire — parties anti-poétiques choisies</td></tr>
+            <tr><td>Rime dévalorisante</td><td>« Venus » rime avec « anus »</td><td>La désacralisation de la déesse</td><td>Rapprochement sonore le plus provocant du recueil — mythe détruit par la rime</td></tr>
+            <tr><td>Animalisation</td><td>« lente et bête », « col gras et gris », « large croupe »</td><td>La femme réduite à l'animal</td><td>Vénus transformée en éléphant maladroit — tout l'idéal lyrique s'effondre</td></tr>
+            <tr><td>Adjectifs triviaux</td><td>« pommadés », « horrible », « hideusement »</td><td>Le champ lexical de la laideur</td><td>Rimbaud agresse le lecteur pour briser toutes ses attentes esthétiques</td></tr>
+          </tbody>
+        </table></div>
+
+        <div class="tb"><div class="tbl">Transition → Mouvement 2</div>Si ce premier mouvement montrait la dépréciation du corps, la suite révèle que Rimbaud s'attaque aussi aux références picturales célèbres. Ce basculement s'opère par les détails visuels qui parodient Botticelli et Cabanel.</div>
+
+        <div class="mv">Mouvement 2 — Parodie des tableaux de la naissance de Vénus</div>
+        <div class="tw"><table class="at">
+          <thead><tr><th>Procédé</th><th>Citation</th><th>Ce que ça souligne</th><th>Interprétation</th></tr></thead>
+          <tbody>
+            <tr><td>Parodie picturale</td><td>« vieille baignoire » vs coquillage de Botticelli</td><td>L'objet trivial remplace le noble</td><td>Toute la noblesse du mythe rabaissée au quotidien le plus prosaïque</td></tr>
+            <tr><td>Couleur rouge perturbatrice</td><td>« l'échine est un peu rouge »</td><td>La couleur qui détruit la sensualité</td><td>Dans le tableau de Cabanel tout est blanc/bleu — le rouge de Rimbaud détruit toute beauté</td></tr>
+            <tr><td>Référence latine</td><td>« Clara Venus »</td><td>L'allusion à Louise Labé et la Pléiade</td><td>Rimbaud cite la tradition lyrique pour mieux la moquer — les mots sont « gravés » comme sur une tombe</td></tr>
+          </tbody>
+        </table></div>
+
+        <div class="tb"><div class="tbl">Transition → Mouvement 3</div>Après avoir détruit l'image traditionnelle de Vénus, Rimbaud propose en creux une esthétique nouvelle. L'oxymore final « Belle hideusement » marque le tournant vers une conception moderne de la beauté.</div>
+
+        <div class="mv">Mouvement 3 — Une poésie nouvelle parnassienne</div>
+        <div class="tw"><table class="at">
+          <thead><tr><th>Procédé</th><th>Citation</th><th>Ce que ça souligne</th><th>Interprétation</th></tr></thead>
+          <tbody>
+            <tr><td>Oxymore</td><td>« Belle hideusement »</td><td>La beauté née du choc</td><td>La beauté n'est plus harmonie — elle naît de la surprise et du paradoxe : esthétique parnassienne</td></tr>
+            <tr><td>Oxymore</td><td>« Horrible étrangement »</td><td>L'horreur rendue fascinante</td><td>L'art peut naître de ce qui répugne — révolution poétique totale</td></tr>
+            <tr><td>Pronom impersonnel</td><td>« on remarque »</td><td>L'effacement du je lyrique</td><td>Le poète parnassien n'expose pas ses émotions — objectivité et précision du regard</td></tr>
+            <tr><td>Métaphore orfèvrerie</td><td>« deux mots gravés »</td><td>L'art assimilé à la sculpture</td><td>Les mots gravés comme une œuvre d'art — culte parnassien du détail et de la précision</td></tr>
+          </tbody>
+        </table></div>
+
+        <h3>CONCLUSION</h3>
+        <div class="cs"><div class="csl">Synthèse</div><p>En conclusion, ce sonnet nous a montré comment Rimbaud réalise un anti-portrait parodique de Vénus pour proposer une poésie nouvelle grâce au contre-blason dévalorisateur, à la parodie des références picturales, et à l'esthétique de la provocation parnassienne.</p></div>
+        <div class="cs"><div class="csl">Enjeu</div><p>L'enjeu est esthétique : Rimbaud veut détruire le lyrisme traditionnel pour une poésie de la précision et du choc — la beauté naît désormais du paradoxe.</p></div>
+        <div class="cs"><div class="csl">Ouverture</div><p>On pourrait rapprocher ce poème de <em>Voyelles</em> de Rimbaud, où il s'éloigne encore plus du Parnasse vers la liberté langagière totale du Symbolisme.</p></div>
+
+        <div class="cit"><h4>Citations clés</h4><ul>
+          <li>Belle hideusement d'un ulcère à l'anus</li>
+          <li>Clara Venus</li>
+          <li>Horrible étrangement</li>
+          <li>deux mots gravés</li>
+        </ul></div>
+      </div>
+    </div>
+  </div><!-- fin rimbaud -->
+
+  <!-- AUTRES — placeholders -->
+  <div class="gc" data-genre="ces"><div class="ft-card"><div class="ft-head" onclick="toggleFT(this)"><div><div class="ft-head-title">Cahier d'un retour au pays natal</div><div class="ft-head-sub">Césaire — fiche en cours</div></div><div class="ft-arrow">▼</div></div><div class="ft-body"><p style="opacity:0.6;font-style:italic;font-size:0.9rem;">Fiche en cours de construction — envoie les analyses de commentaire-compose.fr</p></div></div></div>
+  <div class="gc" data-genre="pre"><div class="ft-card"><div class="ft-head" onclick="toggleFT(this)"><div><div class="ft-head-title">Manon Lescaut — La rencontre / La lettre / La mort</div><div class="ft-head-sub">Prévost — fiche en cours</div></div><div class="ft-arrow">▼</div></div><div class="ft-body"><p style="opacity:0.6;font-style:italic;font-size:0.9rem;">Fiche en cours de construction</p></div></div></div>
+  <div class="gc" data-genre="laf"><div class="ft-card"><div class="ft-head" onclick="toggleFT(this)"><div><div class="ft-head-title">La Princesse de Clèves — Il parut alors une beauté</div><div class="ft-head-sub">Lafayette — fiche en cours</div></div><div class="ft-arrow">▼</div></div><div class="ft-body"><p style="opacity:0.6;font-style:italic;font-size:0.9rem;">Fiche en cours de construction</p></div></div></div>
+  <div class="gc" data-genre="mus"><div class="ft-card"><div class="ft-head" onclick="toggleFT(this)"><div><div class="ft-head-title">On ne badine pas — Acte I sc.2 / II sc.5 / III sc.8</div><div class="ft-head-sub">Musset — fiche en cours</div></div><div class="ft-arrow">▼</div></div><div class="ft-body"><p style="opacity:0.6;font-style:italic;font-size:0.9rem;">Fiche en cours de construction</p></div></div></div>
+  <div class="gc" data-genre="lab"><div class="ft-card"><div class="ft-head" onclick="toggleFT(this)"><div><div class="ft-head-title">Discours de la servitude volontaire — 3 extraits</div><div class="ft-head-sub">La Boétie — fiche en cours</div></div><div class="ft-arrow">▼</div></div><div class="ft-body"><p style="opacity:0.6;font-style:italic;font-size:0.9rem;">Fiche en cours de construction</p></div></div></div>
+  <div class="gc" data-genre="vol"><div class="ft-card"><div class="ft-head" onclick="toggleFT(this)"><div><div class="ft-head-title">Candide — Chapitre 19</div><div class="ft-head-sub">Voltaire — fiche en cours</div></div><div class="ft-arrow">▼</div></div><div class="ft-body"><p style="opacity:0.6;font-style:italic;font-size:0.9rem;">Fiche en cours de construction</p></div></div></div>
+
+</section>
+
+<!-- ===== II : MÉTHODE ===== -->
+<section class="panel" id="methode">
+  <div class="fh"><div class="fn">Fiche II</div><div class="ft">Méthode & Moules</div><div class="fd">Les structures à remplir le jour J</div></div>
+
+  <h2><span class="n">§1</span> Test anti-paraphrase</h2>
+  <div class="kr"><strong>« Est-ce que quelqu'un qui n'a PAS lu le texte comprendrait quelque chose en plus en me lisant ? »</strong><p style="margin-top:0.4rem;font-size:0.88rem;opacity:0.85;">Si non → tu paraphrases. Si oui → tu analyses.</p></div>
+  <div class="cmp">
+    <div class="cb2 bad"><span class="clb">✗ Paraphrase</span>Rimbaud décrit un soldat qui dort dans la nature.</div>
+    <div class="cb2 good"><span class="clb">✓ Analyse</span>Rimbaud <em>euphémise</em> la mort — « il dort » — pour créer un contraste saisissant avec la chute et <em>dénoncer l'absurdité de la guerre</em>.</div>
+  </div>
+
+  <h2><span class="n">§2</span> MOULE — Introduction</h2>
+  <div class="qb">
+    <strong>Amorce :</strong> « Le [siècle] est marqué par [mouvement + contexte]. C'est dans ce contexte que [auteur], [qui il est en 1 phrase], publie en [date] [titre]. C'est l'histoire [résumé en 1 phrase]. »<br><br>
+    <strong>Présentation :</strong> « L'extrait que nous étudions se situe [emplacement]. Il s'agit de [nature du texte] où [résumé en 1 phrase]. »<br><br>
+    <strong>Problématique :</strong> « Dès lors, nous nous demanderons comment [problématique]. »<br><br>
+    <strong>Plan :</strong> « Pour répondre à cette question, notre analyse suivra trois mouvements : tout d'abord nous verrons [Mvt 1], puis nous analyserons [Mvt 2], et enfin nous étudierons [Mvt 3]. »
+  </div>
+
+  <h2><span class="n">§3</span> MOULES — Analyse (alterner)</h2>
+  <div class="fc" onclick="this.classList.toggle('fl')"><div class="ff"><div class="fp">Variante Levier</div><div class="ftt">À travers l'usage de [A] ("[B]"), l'auteur met en relief [C]. Cette stratégie textuelle permet de faire comprendre au lecteur que [D].</div></div><div class="fb">Ex : « À travers l'usage de la <em>personnification</em> — "où chante une rivière" — l'auteur met en relief la nature vivante. Cette stratégie permet de faire comprendre que la nature est un refuge maternel autour du soldat. »</div></div>
+  <div class="fc" onclick="this.classList.toggle('fl')"><div class="ff"><div class="fp">Variante Focus</div><div class="ftt">La présence de [A] dans l'expression "[B]" attire l'attention sur [C]. Par ce biais, l'écrivain suggère que [D].</div></div><div class="fb">Ex : « La présence du <em>rejet</em> dans "des haillons / D'argent" attire l'attention sur les reflets lumineux. Par ce biais, l'écrivain suggère que la lumière éblouit pour mieux masquer la mort. »</div></div>
+  <div class="fc" onclick="this.classList.toggle('fl')"><div class="ff"><div class="fp">Variante Démonstrative</div><div class="ftt">En employant [A] avec les termes "[B]", le texte accentue [C], ce qui illustre parfaitement le fait que [D].</div></div><div class="fb">Ex : « En employant le <em>champ lexical du sommeil</em> avec "dort", "étendu", "lit", le texte accentue l'apparente sérénité, ce qui illustre que Rimbaud mène le lecteur sur une fausse piste. »</div></div>
+  <div class="fc" onclick="this.classList.toggle('fl')"><div class="ff"><div class="fp">Variante Stylistique</div><div class="ftt">L'auteur instaure un véritable [B] via [A]. Ce procédé entre en résonance avec [C] et renforce ainsi l'idée de [D].</div></div><div class="fb">Ex : « L'auteur instaure un véritable <em>effet de zoom final</em> via le rejet de "Tranquille." Ce procédé entre en résonance avec la construction dramatique du sonnet et renforce l'idée que la nature n'était qu'un écrin pour la mort. »</div></div>
+
+  <h2><span class="n">§4</span> MOULES — Transition</h2>
+  <div class="fc" onclick="this.classList.toggle('fl')"><div class="ff"><div class="fp">Variante Évolutive</div><div class="ftt">Si la première partie s'attachait à [A], la suite du texte se tourne vers [B]. Ce basculement s'opère par [C], créant une rupture dans [D].</div></div><div class="fb">Ex : « Si la première partie s'attachait à décrire un décor idyllique, la suite se tourne vers l'introduction du soldat. Ce basculement s'opère par le mot "Un soldat", créant une rupture dans le registre. »</div></div>
+  <div class="fc" onclick="this.classList.toggle('fl')"><div class="ff"><div class="fp">Variante Contrastée</div><div class="ftt">Tandis que le premier mouvement soulignait [A], le second vient s'y opposer en traitant de [B]. Cette transition repose sur [C] qui vient briser [D].</div></div><div class="fb">Ex : « Tandis que le premier mouvement soulignait l'ambiguïté du dormeur, le second vient révéler la vérité. Cette transition repose sur la première négation du poème qui vient briser l'illusion construite. »</div></div>
+
+  <h2><span class="n">§5</span> MOULE — Conclusion</h2>
+  <div class="qb"><strong>Synthèse :</strong> « En conclusion, ce texte nous a montré comment [réponse] grâce à [Mvt 1], [Mvt 2] et [Mvt 3]. »<br><br><strong>Enjeu :</strong> « L'enjeu est ici [esthétique / moral / politique] : [auteur] cherche à [intention]. »<br><br><strong>Ouverture :</strong> « On pourrait rapprocher ce [genre] de [autre œuvre] qui traite également de [thème commun], mais d'une manière [différence]. »</div>
+
+  <h2><span class="n">§6</span> Verbes interdits</h2>
+  <div class="tw"><table>
+    <thead><tr><th>❌ Interdit</th><th>✅ Remplace par</th></tr></thead>
+    <tbody>
+      <tr><td>L'auteur dit</td><td>suggère, sous-entend, affirme, martèle, insinue</td></tr>
+      <tr><td>L'auteur montre</td><td>met en relief, dévoile, révèle, met en scène</td></tr>
+      <tr><td>L'auteur décrit</td><td>brosse, esquisse, dresse le portrait, déploie</td></tr>
+      <tr><td>Le poète parle de</td><td>évoque, célèbre, déplore, interroge</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ===== III : VOCABULAIRE ===== -->
+<section class="panel" id="vocab">
+  <div class="fh"><div class="fn">Fiche III</div><div class="ft">Vocabulaire analytique</div><div class="fd">Par genre — tableaux de référence</div></div>
+  <div class="gtabs">
+    <button class="gb active" data-genre="vt">🎭 Théâtre</button>
+    <button class="gb" data-genre="vp">🌹 Poésie</button>
+    <button class="gb" data-genre="vr">📖 Roman</button>
+    <button class="gb" data-genre="ve">💭 Essai</button>
+    <button class="gb" data-genre="vf">✨ Figures</button>
+  </div>
+  <div class="gc active" data-genre="vt">
+    <h3>Règles classiques</h3>
+    <div class="tw"><table><tr><td><strong>Règle des 3 unités</strong></td><td>Temps (24h), lieu (un seul), action (une intrigue)</td></tr><tr><td><strong>Bienséance</strong></td><td>Pas de violence visible sur scène</td></tr><tr><td><strong>Fatalité / fatum</strong></td><td>Destin inévitable qui écrase le héros</td></tr><tr><td><strong>Hubris</strong></td><td>Démesure du personnage qui provoque sa chute</td></tr><tr><td><strong>Catharsis</strong></td><td>Purification des passions chez le spectateur</td></tr><tr><td><strong>Hamartia</strong></td><td>Faute tragique du héros — souvent involontaire</td></tr></table></div>
+    <h3>Formes</h3>
+    <div class="tw"><table><tr><td><strong>Tirade</strong></td><td>Long discours d'un seul personnage</td></tr><tr><td><strong>Stichomythie</strong></td><td>Échange de répliques très courtes et rapides</td></tr><tr><td><strong>Double énonciation</strong></td><td>Le perso parle à un autre ET au spectateur</td></tr><tr><td><strong>Ironie dramatique</strong></td><td>Le spectateur sait ce que le perso ignore</td></tr><tr><td><strong>Alexandrin</strong></td><td>Vers de 12 syllabes — mètre de Racine</td></tr><tr><td><strong>Hémistiche / Césure</strong></td><td>Moitié de l'alexandrin / pause au milieu</td></tr></table></div>
+  </div>
+  <div class="gc" data-genre="vp">
+    <div class="tw"><table><tr><td><strong>Sonnet</strong></td><td>2 quatrains + 2 tercets = 14 vers</td></tr><tr><td><strong>Verset</strong></td><td>Vers long sans mètre fixe (Césaire)</td></tr><tr><td><strong>Moi lyrique</strong></td><td>Le "je" du poème — pas forcément autobiographique</td></tr><tr><td><strong>Synesthésie</strong></td><td>Mélange de plusieurs sens — typique Rimbaud</td></tr><tr><td><strong>Isotopie</strong></td><td>Réseau de mots du même champ lexical</td></tr><tr><td><strong>Anaphore</strong></td><td>Répétition en début de vers</td></tr><tr><td><strong>Rejet</strong></td><td>Mot important au début du vers suivant</td></tr><tr><td><strong>Enjambement</strong></td><td>La phrase déborde sur le vers suivant</td></tr><tr><td><strong>Allitération</strong></td><td>Répétition d'une consonne</td></tr><tr><td><strong>Assonance</strong></td><td>Répétition d'une voyelle</td></tr><tr><td><strong>Négritude</strong></td><td>Revalorisation identité noire (Césaire)</td></tr><tr><td><strong>Parnasse</strong></td><td>Culte beauté formelle, objectivité</td></tr><tr><td><strong>Contre-blason</strong></td><td>Portrait qui dévalorise au lieu d'idéaliser</td></tr></table></div>
+  </div>
+  <div class="gc" data-genre="vr">
+    <div class="tw"><table><tr><td><strong>Narrateur homodiégétique</strong></td><td>Dans l'histoire (ex: Des Grieux)</td></tr><tr><td><strong>Narrateur hétérodiégétique</strong></td><td>Extérieur à l'histoire</td></tr><tr><td><strong>Focalisation interne</strong></td><td>Vue par les yeux d'un personnage</td></tr><tr><td><strong>Focalisation zéro</strong></td><td>Narrateur omniscient</td></tr><tr><td><strong>Analepse</strong></td><td>Retour en arrière (flashback)</td></tr><tr><td><strong>Récit rétrospectif</strong></td><td>Raconté après coup — ironie tragique</td></tr><tr><td><strong>Prosopographie</strong></td><td>Portrait physique</td></tr><tr><td><strong>Éthopée</strong></td><td>Portrait moral / psychologique</td></tr><tr><td><strong>Topos</strong></td><td>Lieu commun littéraire (coup de foudre...)</td></tr></table></div>
+  </div>
+  <div class="gc" data-genre="ve">
+    <div class="tw"><table><tr><td><strong>Thèse / Antithèse</strong></td><td>Idée défendue / idée opposée</td></tr><tr><td><strong>Réfutation</strong></td><td>Détruire l'argument adverse</td></tr><tr><td><strong>Concession</strong></td><td>Admettre une partie pour mieux réfuter</td></tr><tr><td><strong>Raisonnement par l'absurde</strong></td><td>Pousser à l'extrême pour montrer l'absurdité</td></tr><tr><td><strong>Question rhétorique</strong></td><td>Question sans réponse attendue</td></tr><tr><td><strong>Apostrophe</strong></td><td>Interpellation directe du lecteur</td></tr><tr><td><strong>Prétérition</strong></td><td>Dire qu'on ne va pas dire... et le dire</td></tr><tr><td><strong>Ironie / Antiphrase</strong></td><td>Dire le contraire de ce qu'on pense</td></tr><tr><td><strong>Conte philosophique</strong></td><td>Fiction au service d'une critique (Voltaire)</td></tr><tr><td><strong>Servitude volontaire</strong></td><td>Obéir librement à un tyran (La Boétie)</td></tr></table></div>
+  </div>
+  <div class="gc" data-genre="vf">
+    <div class="tw"><table>
+      <thead><tr><th>Figure</th><th>Définition</th><th>Exemple</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Métaphore</strong></td><td>Comparaison sans "comme"</td><td>"Cette femme est un volcan"</td></tr>
+        <tr><td><strong>Comparaison</strong></td><td>Avec "comme" / "tel"</td><td>"Comme un volcan"</td></tr>
+        <tr><td><strong>Hyperbole</strong></td><td>Exagération</td><td>"Je t'ai dit mille fois"</td></tr>
+        <tr><td><strong>Litote</strong></td><td>Dire moins pour plus</td><td>"Ce n'est pas mal" = très bien</td></tr>
+        <tr><td><strong>Euphémisme</strong></td><td>Atténuer la réalité</td><td>"Il nous a quittés" = mort</td></tr>
+        <tr><td><strong>Oxymore</strong></td><td>Mots contradictoires</td><td>"Belle hideusement"</td></tr>
+        <tr><td><strong>Antithèse</strong></td><td>Opposition de 2 idées</td><td>"Je vis, je meurs"</td></tr>
+        <tr><td><strong>Anaphore</strong></td><td>Répétition en début</td><td>"J'aime… J'aime…"</td></tr>
+        <tr><td><strong>Personnification</strong></td><td>Humaniser un objet</td><td>"La rivière chante"</td></tr>
+        <tr><td><strong>Ironie</strong></td><td>Dire le contraire</td><td>Ton détaché sur l'horreur</td></tr>
+        <tr><td><strong>Question rhétorique</strong></td><td>Sans réponse attendue</td><td>"Peut-on aimer librement ?"</td></tr>
+        <tr><td><strong>Gradation</strong></td><td>Montée en intensité</td><td>"Je le vis, je rougis, je pâlis"</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- ===== IV : FLASHCARDS ===== -->
+<section class="panel" id="flash">
+  <div class="fh"><div class="fn">Fiche IV</div><div class="ft">Flashcards</div><div class="fd">Clique pour voir la définition — objectif 100%</div></div>
+  <div id="scoreBox" style="margin-bottom:0.9rem;"><div class="st">Cartes retournées : <span id="sc">0</span> / <span id="st2">0</span></div><div class="sb"><div class="sf" id="sf" style="width:0%"></div></div></div>
+  <div class="gtabs" id="vtabs">
+    <button class="gb active" data-vg="trag">🎭 Tragédie</button>
+    <button class="gb" data-vg="tf">Formes théâtre</button>
+    <button class="gb" data-vg="vers">Versification</button>
+    <button class="gb" data-vg="poe">🌹 Poésie</button>
+    <button class="gb" data-vg="rom">📖 Roman</button>
+    <button class="gb" data-vg="ess">💭 Essai</button>
+    <button class="gb" data-vg="fig">✨ Figures</button>
+  </div>
+  <div id="vc"></div>
+</section>
+
+<!-- ===== V : AUTEURS & SIÈCLES ===== -->
+<section class="panel" id="contexte">
+  <div class="fh"><div class="fn">Fiche V</div><div class="ft">Auteurs & Contextes</div><div class="fd">Les infos pour remplir l'amorce — mouvements, siècles, auteurs</div></div>
+
+  <h2><span class="n">§1</span> Les mouvements littéraires</h2>
+  <div class="tw"><table>
+    <thead><tr><th>Mouvement</th><th>Siècle</th><th>Caractéristiques clés</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Humanisme</strong></td><td>XVIe</td><td>L'homme au centre, foi en la raison et la dignité humaine, retour aux textes antiques</td></tr>
+      <tr><td><strong>Classicisme</strong></td><td>XVIIe</td><td>Mesure, raison, règles strictes (3 unités), idéal de perfection formelle, cour de Louis XIV</td></tr>
+      <tr><td><strong>Lumières</strong></td><td>XVIIIe</td><td>Raison, liberté, critique des institutions (Église, royauté), lutte contre l'esclavage</td></tr>
+      <tr><td><strong>Romantisme</strong></td><td>XIXe (1ère moitié)</td><td>Liberté individuelle, expression des sentiments, nature comme miroir de l'âme, révolte</td></tr>
+      <tr><td><strong>Parnasse</strong></td><td>XIXe (2e moitié)</td><td>Culte de la beauté formelle, objectivité, art pour l'art, rejet du lyrisme romantique</td></tr>
+      <tr><td><strong>Symbolisme</strong></td><td>XIXe (fin)</td><td>Objets qui symbolisent des états intérieurs, synesthésies, musicalité</td></tr>
+      <tr><td><strong>Négritude</strong></td><td>XXe</td><td>Revalorisation identité et culture noire, résistance au colonialisme (Césaire/Senghor)</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2><span class="n">§2</span> Tes 7 auteurs — fiches express</h2>
+
+  <div class="ac"><div class="ac-head" onclick="toggleAC(this)"><div><div class="ac-title">Arthur Rimbaud (1854–1891)</div><div class="ac-sub">XIXe — Symbolisme / Poésie maudite</div></div><div class="ac-arrow">▼</div></div>
+  <div class="ac-body"><div class="tw"><table><tr><td><strong>Qui</strong></td><td>Poète maudit, génie précoce, écrit ses chefs-d'œuvre entre 15 et 19 ans puis abandonne la littérature</td></tr><tr><td><strong>Contexte</strong></td><td>Guerre franco-prussienne 1870, fugues répétées, révolte contre la bourgeoisie et la religion</td></tr><tr><td><strong>Œuvre</strong></td><td>Cahiers de Douai (1870) : poèmes de jeunesse écrits pendant ses fugues</td></tr><tr><td><strong>Écriture</strong></td><td>Subversion des codes classiques, synesthésies, autodérision, poétique de la rupture</td></tr><tr><td><strong>Citation clé</strong></td><td>« Je est un autre »</td></tr></table></div></div></div>
+
+  <div class="ac"><div class="ac-head" onclick="toggleAC(this)"><div><div class="ac-title">Aimé Césaire (1913–2008)</div><div class="ac-sub">XXe — Négritude / Surréalisme</div></div><div class="ac-arrow">▼</div></div>
+  <div class="ac-body"><div class="tw"><table><tr><td><strong>Qui</strong></td><td>Poète, dramaturge et homme politique martiniquais, cofondateur de la Négritude avec Senghor</td></tr><tr><td><strong>Contexte</strong></td><td>Colonialisme français, aliénation des peuples noirs, quête d'identité</td></tr><tr><td><strong>Œuvre</strong></td><td>Cahier d'un retour au pays natal (1939) : texte fondateur de la Négritude</td></tr><tr><td><strong>Écriture</strong></td><td>Versets longs, énumérations paroxystiques, images surréalistes, parole insurrectionnelle</td></tr></table></div></div></div>
+
+  <div class="ac"><div class="ac-head" onclick="toggleAC(this)"><div><div class="ac-title">L'Abbé Prévost (1697–1763)</div><div class="ac-sub">XVIIIe — Roman sentimental / Lumières</div></div><div class="ac-arrow">▼</div></div>
+  <div class="ac-body"><div class="tw"><table><tr><td><strong>Qui</strong></td><td>Abbé défroqué à la vie tumultueuse — ses aventures inspirent son roman</td></tr><tr><td><strong>Contexte</strong></td><td>XVIIIe des Lumières, mais roman qui transgresse la morale par l'éloge de la passion</td></tr><tr><td><strong>Œuvre</strong></td><td>Manon Lescaut (1731) : d'abord censuré pour immoralité, roman d'un amour fatal raconté après coup</td></tr><tr><td><strong>Écriture</strong></td><td>Récit rétrospectif, ironie tragique, esthétique du pathétique, suspension du jugement moral</td></tr></table></div></div></div>
+
+  <div class="ac"><div class="ac-head" onclick="toggleAC(this)"><div><div class="ac-title">Madame de Lafayette (1634–1693)</div><div class="ac-sub">XVIIe — Classicisme</div></div><div class="ac-arrow">▼</div></div>
+  <div class="ac-body"><div class="tw"><table><tr><td><strong>Qui</strong></td><td>Femme de lettres aristocrate, figure du salon littéraire du XVIIe siècle</td></tr><tr><td><strong>Contexte</strong></td><td>Classicisme et idéal de mesure, cour de Louis XIV comme décor romanesque</td></tr><tr><td><strong>Œuvre</strong></td><td>La Princesse de Clèves (1678) : premier roman psychologique moderne français</td></tr><tr><td><strong>Écriture</strong></td><td>Écriture de la retenue, psychologie en demi-teintes, analyse intériorisée des passions</td></tr></table></div></div></div>
+
+  <div class="ac"><div class="ac-head" onclick="toggleAC(this)"><div><div class="ac-title">Alfred de Musset (1810–1857)</div><div class="ac-sub">XIXe — Romantisme</div></div><div class="ac-arrow">▼</div></div>
+  <div class="ac-body"><div class="tw"><table><tr><td><strong>Qui</strong></td><td>Poète et dramaturge romantique, vie dissolue, relation tumultueuse avec George Sand</td></tr><tr><td><strong>Contexte</strong></td><td>Romantisme, drame romantique qui mêle comique et tragique</td></tr><tr><td><strong>Œuvre</strong></td><td>On ne badine pas avec l'amour (1834) : proverbe dramatique où le jeu amoureux finit en tragédie</td></tr><tr><td><strong>Écriture</strong></td><td>Fantaisie grinçante, mélange des registres, parole qui blesse, marivaudage assombri</td></tr></table></div></div></div>
+
+  <div class="ac"><div class="ac-head" onclick="toggleAC(this)"><div><div class="ac-title">Étienne de La Boétie (1530–1563)</div><div class="ac-sub">XVIe — Humanisme</div></div><div class="ac-arrow">▼</div></div>
+  <div class="ac-body"><div class="tw"><table><tr><td><strong>Qui</strong></td><td>Humaniste, ami intime de Montaigne, juriste et écrivain</td></tr><tr><td><strong>Contexte</strong></td><td>XVIe siècle humaniste, réflexion sur la liberté et la tyrannie politique</td></tr><tr><td><strong>Œuvre</strong></td><td>Discours de la servitude volontaire (vers 1549) : écrit à 18 ans, texte révolutionnaire sur la liberté</td></tr><tr><td><strong>Écriture</strong></td><td>Éloquence indignée, rhétorique humaniste, raisonnement par l'absurde</td></tr></table></div></div></div>
+
+  <div class="ac"><div class="ac-head" onclick="toggleAC(this)"><div><div class="ac-title">Voltaire (1694–1778)</div><div class="ac-sub">XVIIIe — Lumières</div></div><div class="ac-arrow">▼</div></div>
+  <div class="ac-body"><div class="tw"><table><tr><td><strong>Qui</strong></td><td>Philosophe des Lumières, esprit le plus célèbre de son siècle, exilé plusieurs fois</td></tr><tr><td><strong>Contexte</strong></td><td>Combat contre l'esclavage, l'intolérance religieuse et l'optimisme naïf</td></tr><tr><td><strong>Œuvre</strong></td><td>Candide (1759) : conte philosophique — critique de l'optimisme et dénonciation de l'esclavage</td></tr><tr><td><strong>Écriture</strong></td><td>Ironie mordante, fausse naïveté, ton léger pour dire des choses graves</td></tr></table></div></div></div>
+
+</section>
+
+<!-- ===== VI : OUTILS ===== -->
+<section class="panel" id="outils">
+  <div class="fh"><div class="fn">Fiche VI</div><div class="ft">Outils de travail</div><div class="fd">Timer, checklists et plan de révision</div></div>
+
+  <h2><span class="n">§1</span> Timer</h2>
+  <div class="tw-t">
+    <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:0.85rem;color:rgba(244,237,224,0.7);">Explication linéaire</div>
+    <div class="td" id="td">08:00</div>
+    <div class="tc">
+      <button class="tb2" onclick="setTimer(480)">8 min (oral)</button>
+      <button class="tb2" onclick="setTimer(600)">10 min (intro)</button>
+      <button class="tb2" onclick="setTimer(1800)">30 min (§)</button>
+      <button class="tb2" onclick="setTimer(7200)">2h (commentaire)</button>
+      <button class="tb2" onclick="toggleTimer()">▶ Start/Pause</button>
+      <button class="tb2" onclick="resetTimer()">↺ Reset</button>
+    </div>
+  </div>
+
+  <h2><span class="n">§2</span> Plan 1 mois</h2>
+  <div class="tw"><table>
+    <thead><tr><th>Semaine</th><th>Objectif</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Sem. 1</strong></td><td>Vocabulaire tragédie + figures + exercices anti-paraphrase</td></tr>
+      <tr><td><strong>Sem. 2</strong></td><td>Vocabulaire poésie + fiches Rimbaud + Césaire</td></tr>
+      <tr><td><strong>Sem. 3</strong></td><td>Roman + Essai + fiches Manon / Lafayette / La Boétie / Voltaire</td></tr>
+      <tr><td><strong>Sem. 4</strong></td><td>2 commentaires complets en conditions réelles + 2 oraux chronométrés</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2><span class="n">§3</span> Checklist avant le bac</h2>
+  <div class="cl-box">
+    <div class="ci" onclick="this.classList.toggle('done')"><div class="cb"></div><div class="ct">11 mots du vocabulaire tragique par cœur</div></div>
+    <div class="ci" onclick="this.classList.toggle('done')"><div class="cb"></div><div class="ct">12 figures de style par cœur</div></div>
+    <div class="ci" onclick="this.classList.toggle('done')"><div class="cb"></div><div class="ct">7 fiches auteurs maîtrisées (qui + contexte + œuvre)</div></div>
+    <div class="ci" onclick="this.classList.toggle('done')"><div class="cb"></div><div class="ct">Fiches textes Rimbaud (3) lues et comprises</div></div>
+    <div class="ci" onclick="this.classList.toggle('done')"><div class="cb"></div><div class="ct">Moules intro / analyse / transition / conclusion appris</div></div>
+    <div class="ci" onclick="this.classList.toggle('done')"><div class="cb"></div><div class="ct">2 commentaires complets en conditions réelles</div></div>
+    <div class="ci" onclick="this.classList.toggle('done')"><div class="cb"></div><div class="ct">S'enregistrer à l'oral et se réécouter</div></div>
+    <div class="ci" onclick="this.classList.toggle('done')"><div class="cb"></div><div class="ct">4 points de grammaire révisés</div></div>
+  </div>
+</section>
+
+</main>
+
+<button class="st-btn" id="stb" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<footer>
+  <div class="fq">« Je est un autre. »</div>
+  <div class="fa">— Arthur Rimbaud</div>
+</footer>
+
+<script>
+// TABS
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById(t.dataset.panel).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+
+// GENRE TABS
+document.querySelectorAll('.gb[data-genre]').forEach(b=>{
+  b.addEventListener('click',()=>{
+    const p=b.closest('.panel')||document;
+    p.querySelectorAll('.gb[data-genre]').forEach(x=>x.classList.remove('active'));
+    p.querySelectorAll('.gc[data-genre]').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    const t=p.querySelector(`.gc[data-genre="${b.dataset.genre}"]`);
+    if(t)t.classList.add('active');
+  });
+});
+
+// TOGGLES
+function toggleFT(h){h.classList.toggle('open');h.nextElementSibling.classList.toggle('open');}
+function toggleAC(h){h.classList.toggle('open');h.nextElementSibling.classList.toggle('open');}
+
+// VOCAB DATA
+const vd={
+  trag:[
+    {t:"Fatalité / fatum",d:"Destin inévitable qui écrase le héros — il ne peut pas échapper à son sort"},
+    {t:"Hubris",d:"Démesure du personnage qui provoque sa chute — excès qui attire la punition"},
+    {t:"Catharsis",d:"Purification des passions ressentie par le spectateur devant la tragédie"},
+    {t:"Hamartia",d:"Faute tragique du héros — souvent involontaire, elle déclenche la chute"},
+    {t:"Bienséance",d:"Règle classique : pas de violence visible sur scène"},
+    {t:"Vraisemblance",d:"Tout doit paraître possible et crédible"},
+    {t:"Règle des 3 unités",d:"Temps (24h max), lieu (un seul), action (une seule intrigue)"},
+    {t:"Nœud tragique",d:"Moment de tension maximale — le point de non-retour"},
+    {t:"Péripétie",d:"Retournement de situation dans l'action"},
+    {t:"Anagnorisis",d:"Moment de reconnaissance ou révélation brutale"},
+    {t:"Dénouement",d:"Résolution finale — souvent la mort dans la tragédie"},
+  ],
+  tf:[
+    {t:"Tirade",d:"Long discours d'un seul personnage sans interruption"},
+    {t:"Stichomythie",d:"Échange de répliques très courtes et rapides"},
+    {t:"Aparté",d:"Le personnage parle au public sans que les autres l'entendent"},
+    {t:"Monologue",d:"Personnage seul sur scène — révèle ses pensées intimes"},
+    {t:"Double énonciation",d:"Le personnage parle à un autre ET au spectateur"},
+    {t:"Quiproquo",d:"Malentendu entre personnages"},
+    {t:"Coup de théâtre",d:"Retournement brutal et inattendu"},
+    {t:"Ironie dramatique",d:"Le spectateur sait ce que le personnage ignore"},
+    {t:"Didascalie",d:"Indication scénique dans le texte"},
+    {t:"Exposition",d:"Scène(s) d'ouverture qui pose la situation et les personnages"},
+  ],
+  vers:[
+    {t:"Alexandrin",d:"Vers de 12 syllabes — mètre classique de Racine"},
+    {t:"Hémistiche",d:"Moitié de l'alexandrin = 6 syllabes"},
+    {t:"Césure",d:"Pause obligatoire au milieu du vers"},
+    {t:"Rejet",d:"Mot rejeté au début du vers suivant pour le mettre en valeur"},
+    {t:"Enjambement",d:"La phrase déborde sur le vers suivant"},
+    {t:"Diérèse",d:"Une syllabe prononcée en deux — allonge le vers"},
+    {t:"Allitération",d:"Répétition d'une même consonne"},
+    {t:"Assonance",d:"Répétition d'une même voyelle"},
+    {t:"Quatrain",d:"Strophe de 4 vers"},
+    {t:"Tercet",d:"Strophe de 3 vers"},
+    {t:"Sonnet",d:"Forme fixe : 2 quatrains + 2 tercets = 14 vers"},
+  ],
+  poe:[
+    {t:"Moi lyrique",d:"Le 'je' du poème — pas forcément autobiographique"},
+    {t:"Synesthésie",d:"Mélange de plusieurs sens (vue + ouïe + toucher) — typique Rimbaud"},
+    {t:"Métaphore filée",d:"Métaphore développée sur plusieurs vers"},
+    {t:"Isotopie",d:"Réseau de mots du même champ lexical"},
+    {t:"Verset",d:"Vers long sans mètre fixe — typique de Césaire"},
+    {t:"Négritude",d:"Mouvement : revalorisation identité et culture noire (Césaire)"},
+    {t:"Poète voyant",d:"'Je est un autre' — le poète voit au-delà du réel (Rimbaud)"},
+    {t:"Parnasse",d:"Culte de la beauté formelle, objectivité, art pour l'art"},
+    {t:"Symbolisme",d:"Les objets symbolisent des états intérieurs"},
+    {t:"Contre-blason",d:"Portrait qui dévalorise au lieu d'idéaliser"},
+    {t:"Parole insurrectionnelle",d:"La langue comme arme de résistance politique (Césaire)"},
+  ],
+  rom:[
+    {t:"Narrateur homodiégétique",d:"Le narrateur est un personnage dans l'histoire (ex: Des Grieux)"},
+    {t:"Narrateur hétérodiégétique",d:"Le narrateur est extérieur à l'histoire"},
+    {t:"Focalisation interne",d:"On voit par les yeux et pensées d'un personnage"},
+    {t:"Focalisation zéro",d:"Narrateur omniscient — sait tout"},
+    {t:"Analepse",d:"Retour en arrière dans le récit (flashback)"},
+    {t:"Récit rétrospectif",d:"Raconté après coup — ironie tragique : le narrateur sait la fin"},
+    {t:"Prosopographie",d:"Portrait physique"},
+    {t:"Éthopée",d:"Portrait moral et psychologique"},
+    {t:"Blason",d:"Éloge poétique d'une partie du corps féminin"},
+    {t:"Topos",d:"Lieu commun littéraire (ex: coup de foudre)"},
+  ],
+  ess:[
+    {t:"Thèse",d:"L'idée principale que l'auteur défend"},
+    {t:"Réfutation",d:"Détruire l'argument adverse"},
+    {t:"Concession",d:"Admettre une partie pour mieux réfuter"},
+    {t:"Raisonnement par l'absurde",d:"Pousser à l'extrême pour montrer l'absurdité"},
+    {t:"Syllogisme",d:"Si A alors B, or A, donc B"},
+    {t:"Paradoxe",d:"Idée contradictoire en apparence mais vraie"},
+    {t:"Prétérition",d:"Dire qu'on ne va pas dire... et le dire quand même"},
+    {t:"Apostrophe",d:"Interpellation directe du lecteur"},
+    {t:"Servitude volontaire",d:"Obéir librement à un tyran (La Boétie)"},
+    {t:"Conte philosophique",d:"Fiction légère au service d'une critique sérieuse (Voltaire)"},
+    {t:"Fausse naïveté",d:"Faire semblant de ne pas comprendre pour mieux dénoncer (Voltaire)"},
+  ],
+  fig:[
+    {t:"Métaphore",d:"Comparaison sans 'comme' — 'Cette femme est un volcan'"},
+    {t:"Comparaison",d:"Avec 'comme', 'tel', 'ainsi que'"},
+    {t:"Hyperbole",d:"Exagération volontaire — 'Je t'ai dit mille fois'"},
+    {t:"Litote",d:"Dire moins pour plus — 'Ce n'est pas mal' = très bien"},
+    {t:"Euphémisme",d:"Atténuer la réalité — 'Il nous a quittés' = mort"},
+    {t:"Oxymore",d:"Mots contradictoires — 'Belle hideusement'"},
+    {t:"Antithèse",d:"Opposition de deux idées — 'Je vis, je meurs'"},
+    {t:"Anaphore",d:"Répétition en début — 'J'aime… J'aime…'"},
+    {t:"Personnification",d:"Humaniser un objet — 'la rivière chante'"},
+    {t:"Ironie",d:"Dire le contraire pour critiquer"},
+    {t:"Question rhétorique",d:"Question sans réponse attendue"},
+    {t:"Gradation",d:"Suite en intensité croissante — 'Je le vis, je rougis, je pâlis'"},
+  ]
+};
+
+let fc=0;
+function renderVC(g){
+  const con=document.getElementById('vc');
+  const cards=vd[g]||[];
+  fc=0;
+  document.getElementById('st2').textContent=cards.length;
+  document.getElementById('sc').textContent=0;
+  document.getElementById('sf').style.width='0%';
+  con.innerHTML='<div class="vg">'+cards.map(c=>`<div class="vc" onclick="flipVC(this,${cards.length})"><div class="vf"><div class="vh">Clique pour la définition</div><div class="vt">${c.t}</div></div><div class="vb">${c.d}</div></div>`).join('')+'</div>';
+}
+function flipVC(card,total){
+  const was=card.classList.contains('fl');
+  card.classList.toggle('fl');
+  fc+=was?-1:1;fc=Math.max(0,fc);
+  document.getElementById('sc').textContent=fc;
+  document.getElementById('sf').style.width=(fc/total*100)+'%';
+}
+document.querySelectorAll('.gb[data-vg]').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.gb[data-vg]').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    renderVC(b.dataset.vg);
+  });
+});
+renderVC('trag');
+
+// TIMER
+let ts=480,ti=null,tr=false;
+function ud(){const m=Math.floor(ts/60).toString().padStart(2,'0');const s=(ts%60).toString().padStart(2,'0');document.getElementById('td').textContent=`${m}:${s}`;}
+function setTimer(s){clearInterval(ti);tr=false;ts=s;ud();}
+function toggleTimer(){if(tr){clearInterval(ti);tr=false;}else{tr=true;ti=setInterval(()=>{if(ts<=0){clearInterval(ti);tr=false;alert('⏰ Temps écoulé !');return;}ts--;ud();},1000);}}
+function resetTimer(){clearInterval(ti);tr=false;ts=480;ud();}
+ud();
+
+// SCROLL
+window.addEventListener('scroll',()=>{
+  const p=(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight))*100;
+  document.getElementById('pb').style.width=p+'%';
+  document.getElementById('stb').classList.toggle('vis',window.scrollY>400);
+});
+</script>
+</body>
+</html>
