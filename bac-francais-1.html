@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bac de Français — Programme de Révision</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1410;
+    --paper: #f4ede0;
+    --paper-dark: #e8dec8;
+    --gold: #b8893a;
+    --rust: #a8472a;
+    --sage: #5a6b47;
+    --line: #c9b896;
+    --shadow: rgba(26,20,16,0.08);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Inter',sans-serif; background:var(--paper); color:var(--ink); line-height:1.6; }
+  header { background:var(--ink); color:var(--paper); padding:3rem 1.5rem 2.5rem; text-align:center; border-bottom:4px double var(--gold); }
+  .header-label { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.95rem; letter-spacing:0.3em; color:var(--gold); text-transform:uppercase; margin-bottom:0.8rem; }
+  h1 { font-family:'Cormorant Garamond',serif; font-weight:500; font-size:clamp(2rem,7vw,3.4rem); line-height:1.05; margin-bottom:0.8rem; }
+  h1 em { color:var(--gold); }
+  .subtitle { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.05rem; color:rgba(244,237,224,0.7); max-width:500px; margin:0 auto; }
+  .tabs { position:sticky; top:0; background:var(--paper); border-bottom:1px solid var(--line); z-index:100; display:flex; overflow-x:auto; box-shadow:0 2px 8px var(--shadow); scrollbar-width:none; }
+  .tabs::-webkit-scrollbar { display:none; }
+  .tab { flex:1; min-width:90px; padding:0.9rem 0.4rem; background:none; border:none; font-family:'Inter',sans-serif; font-size:0.72rem; font-weight:500; letter-spacing:0.06em; text-transform:uppercase; color:var(--ink); cursor:pointer; transition:all 0.3s; border-bottom:3px solid transparent; opacity:0.5; }
+  .tab.active { opacity:1; border-bottom-color:var(--rust); }
+  .tab:hover { opacity:0.85; }
+  .tab .tab-num { display:block; font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-style:italic; color:var(--gold); margin-bottom:0.1rem; }
+  main { max-width:760px; margin:0 auto; padding:2rem 1.2rem 5rem; }
+  .panel { display:none; animation:fadeIn 0.5s ease; }
+  .panel.active { display:block; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+  .fiche-header { text-align:center; margin-bottom:2.5rem; padding:2rem 1rem; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+  .fiche-num { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.9rem; color:var(--rust); letter-spacing:0.3em; text-transform:uppercase; margin-bottom:0.5rem; }
+  .fiche-title { font-family:'Cormorant Garamond',serif; font-size:clamp(1.8rem,5vw,2.6rem); font-weight:500; line-height:1.1; margin-bottom:0.6rem; }
+  .fiche-desc { font-family:'Cormorant Garamond',serif; font-style:italic; color:var(--ink); opacity:0.7; font-size:1.05rem; }
+  h2 { font-family:'Cormorant Garamond',serif; font-size:1.7rem; font-weight:500; margin:2.5rem 0 1rem; padding-bottom:0.5rem; border-bottom:2px solid var(--gold); }
+  h2 .num { font-style:italic; color:var(--gold); margin-right:0.4rem; }
+  h3 { font-family:'Cormorant Garamond',serif; font-size:1.2rem; font-weight:600; margin:1.8rem 0 0.7rem; color:var(--rust); }
+  p { margin-bottom:1rem; }
+  strong { font-weight:600; }
+  em { font-family:'Cormorant Garamond',serif; font-style:italic; }
+  .quote-block { background:var(--paper-dark); padding:1.2rem 1.3rem; margin:1.2rem 0; border-left:3px solid var(--gold); font-family:'Cormorant Garamond',serif; font-size:1.05rem; font-style:italic; line-height:1.5; }
+  .key-rule { background:var(--ink); color:var(--paper); padding:1.5rem 1.3rem; margin:1.5rem 0; border-radius:2px; position:relative; }
+  .key-rule::before { content:"★"; position:absolute; top:-10px; left:1.2rem; background:var(--gold); color:var(--ink); width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.8rem; }
+  .key-rule strong { color:var(--gold); }
+  .compare { display:grid; grid-template-columns:1fr; gap:0.8rem; margin:1.2rem 0; }
+  @media(min-width:600px){ .compare{grid-template-columns:1fr 1fr;} }
+  .compare-box { padding:1rem; border-radius:3px; font-size:0.95rem; }
+  .bad { background:rgba(168,71,42,0.08); border-left:3px solid var(--rust); }
+  .good { background:rgba(90,107,71,0.08); border-left:3px solid var(--sage); }
+  .compare-label { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:0.5rem; display:block; }
+  .bad .compare-label { color:var(--rust); }
+  .good .compare-label { color:var(--sage); }
+  .table-wrap { overflow-x:auto; margin:1.2rem 0; border:1px solid var(--line); border-radius:3px; }
+  table { width:100%; border-collapse:collapse; background:var(--paper); }
+  th { background:var(--ink); color:var(--paper); padding:0.8rem; text-align:left; font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:500; font-size:0.95rem; }
+  td { padding:0.7rem 0.8rem; border-bottom:1px solid var(--line); font-size:0.9rem; vertical-align:top; }
+  tr:last-child td { border-bottom:none; }
+  .exercise { background:var(--paper); border:1px solid var(--line); border-radius:3px; margin:1.2rem 0; overflow:hidden; box-shadow:0 1px 3px var(--shadow); }
+  .exercise-header { padding:0.9rem 1.2rem; background:var(--paper-dark); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:0.8rem; }
+  .exercise-tag { background:var(--rust); color:var(--paper); padding:0.2rem 0.6rem; font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; font-weight:500; border-radius:2px; }
+  .exercise-title { font-family:'Cormorant Garamond',serif; font-weight:600; font-size:1.05rem; }
+  .exercise-body { padding:1.2rem; }
+  .exercise-prompt { font-style:italic; margin-bottom:1rem; padding:0.8rem; background:rgba(184,137,58,0.08); border-radius:3px; font-family:'Cormorant Garamond',serif; font-size:1.02rem; }
+  .exercise textarea { width:100%; min-height:80px; padding:0.8rem; border:1px solid var(--line); border-radius:3px; font-family:'Inter',sans-serif; font-size:0.95rem; background:var(--paper); resize:vertical; color:var(--ink); }
+  .exercise textarea:focus { outline:none; border-color:var(--gold); }
+  .btn { background:var(--ink); color:var(--paper); border:none; padding:0.7rem 1.4rem; font-family:'Inter',sans-serif; font-size:0.85rem; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; margin-top:0.8rem; border-radius:2px; transition:all 0.2s; font-weight:500; }
+  .btn:hover { background:var(--rust); transform:translateY(-1px); }
+  .correction { display:none; margin-top:1rem; padding:1rem 1.2rem; background:rgba(90,107,71,0.1); border-left:3px solid var(--sage); border-radius:0 3px 3px 0; }
+  .correction.shown { display:block; }
+  .correction-label { font-family:'Cormorant Garamond',serif; font-style:italic; color:var(--sage); font-weight:600; margin-bottom:0.5rem; font-size:0.9rem; letter-spacing:0.05em; text-transform:uppercase; }
+  /* VOCAB CARDS */
+  .vocab-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:0.7rem; margin:1.2rem 0; }
+  .vocab-card { background:var(--paper); border:1px solid var(--line); padding:1rem; border-radius:3px; cursor:pointer; transition:all 0.3s; min-height:80px; display:flex; align-items:center; }
+  .vocab-card:hover { background:var(--paper-dark); transform:translateY(-2px); box-shadow:0 4px 10px var(--shadow); }
+  .vocab-card .front,.vocab-card .back { width:100%; }
+  .vocab-card .back { display:none; font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1rem; line-height:1.4; }
+  .vocab-card.flipped .front { display:none; }
+  .vocab-card.flipped .back { display:block; }
+  .vocab-card.flipped { background:var(--ink); color:var(--paper); border-color:var(--gold); }
+  .vocab-term { font-weight:600; font-size:0.95rem; margin-bottom:0.2rem; }
+  .vocab-hint { font-size:0.78rem; color:var(--gold); letter-spacing:0.08em; text-transform:uppercase; }
+  /* GENRE TABS */
+  .genre-tabs { display:flex; gap:0.4rem; margin:1.5rem 0 1rem; overflow-x:auto; scrollbar-width:none; padding-bottom:0.3rem; flex-wrap:wrap; }
+  .genre-tabs::-webkit-scrollbar { display:none; }
+  .genre-btn { flex-shrink:0; background:none; border:1px solid var(--line); padding:0.5rem 1rem; font-family:'Inter',sans-serif; font-size:0.85rem; cursor:pointer; border-radius:20px; color:var(--ink); transition:all 0.2s; }
+  .genre-btn.active { background:var(--ink); color:var(--paper); border-color:var(--ink); }
+  .genre-content { display:none; }
+  .genre-content.active { display:block; }
+  /* FORMULES */
+  .formules-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:0.8rem; margin:1.2rem 0; }
+  .formule-card { background:var(--paper); border:1px solid var(--line); padding:1rem 1.1rem; border-radius:3px; cursor:pointer; transition:all 0.3s; min-height:90px; display:flex; align-items:center; }
+  .formule-card:hover { background:var(--paper-dark); transform:translateY(-2px); box-shadow:0 4px 10px var(--shadow); }
+  .formule-card .front,.formule-card .back { width:100%; }
+  .formule-card .back { display:none; font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1.02rem; }
+  .formule-card.flipped .front { display:none; }
+  .formule-card.flipped .back { display:block; }
+  .formule-card.flipped { background:var(--ink); color:var(--paper); border-color:var(--gold); }
+  .formule-prompt { font-size:0.8rem; color:var(--gold); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:0.3rem; font-weight:500; }
+  .formule-card .front .text { font-family:'Cormorant Garamond',serif; font-size:1.05rem; }
+  /* CITATION */
+  .citation-list { background:var(--paper-dark); padding:1rem 1.3rem; border-radius:3px; margin:0.8rem 0; border-left:3px solid var(--gold); }
+  .citation-list h4 { font-family:'Cormorant Garamond',serif; font-size:1.1rem; margin-bottom:0.5rem; color:var(--rust); }
+  .citation-list ul { list-style:none; padding-left:0; }
+  .citation-list li { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:1rem; padding:0.3rem 0; border-bottom:1px dotted var(--line); }
+  .citation-list li:last-child { border-bottom:none; }
+  .citation-list li::before { content:"« "; color:var(--gold); }
+  .citation-list li::after { content:" »"; color:var(--gold); }
+  /* CHECKLIST */
+  .checklist { background:var(--paper); border:1px solid var(--line); border-radius:3px; padding:1.2rem; margin:1.2rem 0; }
+  .check-item { display:flex; align-items:flex-start; gap:0.7rem; padding:0.6rem 0; border-bottom:1px dashed var(--line); cursor:pointer; user-select:none; }
+  .check-item:last-child { border-bottom:none; }
+  .check-box { width:20px; height:20px; border:2px solid var(--ink); flex-shrink:0; border-radius:2px; margin-top:2px; position:relative; transition:all 0.2s; }
+  .check-item.done .check-box { background:var(--sage); border-color:var(--sage); }
+  .check-item.done .check-box::after { content:"✓"; position:absolute; color:var(--paper); font-size:0.9rem; top:50%; left:50%; transform:translate(-50%,-50%); }
+  .check-item.done .check-text { opacity:0.5; text-decoration:line-through; }
+  .check-text { font-size:0.95rem; }
+  /* TIMER */
+  .timer-widget { background:var(--ink); color:var(--paper); padding:1.5rem; border-radius:3px; text-align:center; margin:1.5rem 0; border:2px solid var(--gold); }
+  .timer-display { font-family:'Cormorant Garamond',serif; font-size:3rem; font-weight:500; color:var(--gold); margin:0.5rem 0; }
+  .timer-controls { display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap; }
+  .timer-btn { background:transparent; border:1px solid var(--paper); color:var(--paper); padding:0.5rem 1rem; cursor:pointer; font-family:'Inter',sans-serif; font-size:0.8rem; letter-spacing:0.1em; text-transform:uppercase; border-radius:2px; }
+  .timer-btn:hover { background:var(--paper); color:var(--ink); }
+  .timer-label { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:0.95rem; color:rgba(244,237,224,0.7); }
+  /* SCORE */
+  .score-bar { background:var(--paper-dark); border-radius:20px; height:12px; margin:0.5rem 0 1rem; overflow:hidden; }
+  .score-fill { height:100%; background:var(--sage); border-radius:20px; transition:width 0.5s; }
+  .score-text { font-size:0.85rem; color:var(--sage); font-weight:600; }
+  /* PROGRESS */
+  .progress-bar { position:fixed; top:0; left:0; height:3px; background:var(--rust); z-index:200; transition:width 0.1s; width:0%; }
+  .scroll-top { position:fixed; bottom:1.5rem; right:1.5rem; width:44px; height:44px; background:var(--ink); color:var(--paper); border:none; border-radius:50%; cursor:pointer; opacity:0; transition:all 0.3s; z-index:99; box-shadow:0 4px 12px var(--shadow); font-size:1.1rem; }
+  .scroll-top.visible { opacity:1; }
+  footer { text-align:center; padding:2.5rem 1rem; background:var(--ink); color:var(--paper); font-family:'Cormorant Garamond',serif; font-style:italic; margin-top:3rem; }
+  footer .footer-quote { font-size:1.2rem; margin-bottom:0.5rem; }
+  footer .footer-attr { color:var(--gold); font-size:0.9rem; }
+  .badge { display:inline-block; background:var(--rust); color:var(--paper); font-size:0.7rem; padding:0.15rem 0.5rem; border-radius:10px; margin-left:0.4rem; vertical-align:middle; font-weight:600; }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<header>
+  <div class="header-label">Programme de Révision</div>
+  <h1>Bac de <em>Français</em></h1>
+  <p class="subtitle">Tuer la paraphrase. Maîtriser le vocabulaire. Réussir le jour J.</p>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" data-panel="fiche1"><span class="tab-num">I</span>Paraphrase</button>
+  <button class="tab" data-panel="fiche2"><span class="tab-num">II</span>Vocabulaire</button>
+  <button class="tab" data-panel="vocab"><span class="tab-num">III</span>Flashcards</button>
+  <button class="tab" data-panel="fiche3"><span class="tab-num">IV</span>Jour J</button>
+  <button class="tab" data-panel="outils"><span class="tab-num">V</span>Outils</button>
+</nav>
+
+<main>
+
+<!-- ============ FICHE 1 — PARAPHRASE ============ -->
+<section class="panel active" id="fiche1">
+  <div class="fiche-header">
+    <div class="fiche-num">Fiche I</div>
+    <h1 class="fiche-title">Tuer la paraphrase</h1>
+    <p class="fiche-desc">Passer du résumé à l'analyse en une seule règle</p>
+  </div>
+
+  <h2><span class="num">§1</span> Le test infaillible</h2>
+  <div class="key-rule">
+    <strong>« Est-ce que quelqu'un qui n'a PAS lu le texte comprendrait quelque chose en plus en me lisant ? »</strong>
+    <p style="margin-top:0.6rem;font-size:0.95rem;opacity:0.85;">Si non → tu paraphrases. Si oui → tu analyses.</p>
+  </div>
+
+  <h2><span class="num">§2</span> La règle d'or — QUOI + COMMENT + POURQUOI</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>QUOI</th><th>COMMENT</th><th>POURQUOI</th></tr></thead>
+    <tbody><tr>
+      <td>Le procédé identifié<br><em>(métaphore, antithèse...)</em></td>
+      <td>La citation entre guillemets</td>
+      <td>L'effet produit sur le lecteur/spectateur</td>
+    </tr></tbody>
+  </table></div>
+
+  <h3>Exemple — Le Dormeur du val</h3>
+  <div class="compare">
+    <div class="compare-box bad"><span class="compare-label">✗ Paraphrase</span>Rimbaud décrit un soldat qui dort dans un trou de verdure.</div>
+    <div class="compare-box good"><span class="compare-label">✓ Analyse</span>Rimbaud <em>euphémise</em> la mort par la métaphore du sommeil — « il dort » — pour <em>créer un contraste saisissant</em> avec la chute finale et <em>dénoncer l'absurdité de la guerre</em>.</div>
+  </div>
+
+  <h2><span class="num">§3</span> Les verbes à bannir</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Au lieu de...</th><th>Utilise</th></tr></thead>
+    <tbody>
+      <tr><td>L'auteur dit</td><td>suggère, sous-entend, affirme, martèle, insinue</td></tr>
+      <tr><td>L'auteur montre</td><td>met en scène, dévoile, révèle, dépeint, exhibe</td></tr>
+      <tr><td>L'auteur décrit</td><td>brosse, esquisse, dresse le portrait, déploie</td></tr>
+      <tr><td>Le poète parle de</td><td>évoque, célèbre, déplore, interroge</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2><span class="num">§4</span> Structure d'un paragraphe parfait</h2>
+  <div class="quote-block">
+    <strong>1. PHRASE-IDÉE</strong> (ce que tu vas prouver)<br>
+    <strong>2. CITATION + procédé</strong> (QUOI + COMMENT)<br>
+    <strong>3. EFFET produit</strong> sur le lecteur/spectateur (POURQUOI)<br>
+    <strong>4. LIEN avec le sens global</strong> du passage<br>
+    <strong>5. PHRASE-BILAN / transition</strong>
+  </div>
+
+  <h2><span class="num">§5</span> Exercices sur tes textes</h2>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-tag">Ex. 1</span><span class="exercise-title">Ma Bohème — Rimbaud</span></div>
+    <div class="exercise-body">
+      <div class="exercise-prompt">« Rimbaud raconte qu'il marche sur la route avec ses poches trouées. »</div>
+      <textarea placeholder="Reformule en analyse (QUOI + COMMENT + POURQUOI)..."></textarea>
+      <button class="btn" onclick="toggleCorr(this)">Voir la correction</button>
+      <div class="correction"><div class="correction-label">Correction</div>Rimbaud <em>transfigure</em> la précarité matérielle — « mes poches crevées » — en <em>condition poétique idéale</em>, le vagabondage devenant <em>métaphore de la liberté créatrice</em>.</div>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-tag">Ex. 2</span><span class="exercise-title">Manon Lescaut — La rencontre</span></div>
+    <div class="exercise-body">
+      <div class="exercise-prompt">« Des Grieux voit Manon pour la première fois et tombe amoureux. »</div>
+      <textarea placeholder="Reformule en analyse..."></textarea>
+      <button class="btn" onclick="toggleCorr(this)">Voir la correction</button>
+      <div class="correction"><div class="correction-label">Correction</div>Prévost <em>fait basculer</em> le récit dès cette scène inaugurale par un <em>coup de foudre fulgurant</em> qui <em>préfigure la fatalité passionnelle</em> traversant tout le roman.</div>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-tag">Ex. 3</span><span class="exercise-title">On ne badine pas — Acte I, sc. 2</span></div>
+    <div class="exercise-body">
+      <div class="exercise-prompt">« Maître Blazius parle de Perdican à Madame Pluche. »</div>
+      <textarea placeholder="Reformule en analyse..."></textarea>
+      <button class="btn" onclick="toggleCorr(this)">Voir la correction</button>
+      <div class="correction"><div class="correction-label">Correction</div>Musset <em>recourt au registre satirique</em> dans cette scène d'exposition pour <em>ridiculiser le précepteur</em>, dont la <em>gloutonnerie verbale et physique</em> annonce la <em>tonalité ironique et grinçante</em> de la pièce.</div>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-tag">Ex. 4</span><span class="exercise-title">La Boétie — Servitude volontaire</span></div>
+    <div class="exercise-body">
+      <div class="exercise-prompt">« La Boétie dit que les hommes sont libres naturellement. »</div>
+      <textarea placeholder="Reformule en analyse..."></textarea>
+      <button class="btn" onclick="toggleCorr(this)">Voir la correction</button>
+      <div class="correction"><div class="correction-label">Correction</div>La Boétie <em>pose comme axiome fondateur</em> la liberté naturelle de l'homme afin de <em>rendre absurde et scandaleuse</em> la servitude consentie qu'il s'apprête à dénoncer.</div>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-tag">Ex. 5</span><span class="exercise-title">Candide ch.19 — Voltaire</span></div>
+    <div class="exercise-body">
+      <div class="exercise-prompt">« Voltaire parle d'un esclave qui a perdu sa main et sa jambe. »</div>
+      <textarea placeholder="Reformule en analyse..."></textarea>
+      <button class="btn" onclick="toggleCorr(this)">Voir la correction</button>
+      <div class="correction"><div class="correction-label">Correction</div>Voltaire <em>manie l'ironie comme une arme</em> : le ton détaché du nègre de Surinam — « c'est à ce prix que vous mangez du sucre en Europe » — <em>redouble l'horreur</em> du système esclavagiste pour <em>provoquer l'indignation du lecteur</em>.</div>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-tag">Ex. 6</span><span class="exercise-title">Phèdre — Racine <span class="badge">NOUVEAU</span></span></div>
+    <div class="exercise-body">
+      <div class="exercise-prompt">« Phèdre dit qu'elle aime Hippolyte et que ça lui a causé beaucoup de souffrance. »</div>
+      <textarea placeholder="Reformule en analyse..."></textarea>
+      <button class="btn" onclick="toggleCorr(this)">Voir la correction</button>
+      <div class="correction"><div class="correction-label">Correction</div>Racine <em>utilise la stichomythie</em> pour mimer la résistance de Phèdre à nommer son amour interdit — « J'aime… J'aime… » — la répétition haletante <em>traduisant l'aveu arraché</em> par la fatalité divine de Vénus, dont Phèdre est à la fois victime et coupable.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FICHE 2 — VOCABULAIRE PAR GENRE ============ -->
+<section class="panel" id="fiche2">
+  <div class="fiche-header">
+    <div class="fiche-num">Fiche II</div>
+    <h1 class="fiche-title">Vocabulaire analytique</h1>
+    <p class="fiche-desc">Formules par genre — clique pour révéler</p>
+  </div>
+
+  <div class="genre-tabs">
+    <button class="genre-btn active" data-genre="theatre">🎭 Théâtre</button>
+    <button class="genre-btn" data-genre="poesie">🌹 Poésie</button>
+    <button class="genre-btn" data-genre="roman">📖 Roman</button>
+    <button class="genre-btn" data-genre="essai">💭 Essai</button>
+    <button class="genre-btn" data-genre="figures">✨ Figures de style</button>
+  </div>
+
+  <!-- THÉÂTRE -->
+  <div class="genre-content active" data-genre="theatre">
+    <h3>Règles du théâtre classique — à connaître par cœur</h3>
+    <div class="table-wrap"><table>
+      <tr><td><strong>Règle des 3 unités</strong></td><td>Unité de temps (24h), lieu (un seul), action (une intrigue)</td></tr>
+      <tr><td><strong>Bienséance</strong></td><td>On ne montre pas la violence sur scène</td></tr>
+      <tr><td><strong>Vraisemblance</strong></td><td>Tout doit paraître possible et crédible</td></tr>
+      <tr><td><strong>Fatalité / fatum</strong></td><td>Destin inévitable qui écrase le héros tragique</td></tr>
+      <tr><td><strong>Hubris</strong></td><td>Démesure du personnage qui provoque sa chute</td></tr>
+      <tr><td><strong>Catharsis</strong></td><td>Purification des passions chez le spectateur</td></tr>
+      <tr><td><strong>Hamartia</strong></td><td>La faute tragique du héros (souvent involontaire)</td></tr>
+    </table></div>
+
+    <h3>Formes théâtrales</h3>
+    <div class="table-wrap"><table>
+      <tr><td><strong>Tirade</strong></td><td>Long discours d'un seul personnage</td></tr>
+      <tr><td><strong>Stichomythie</strong></td><td>Échange de répliques très courtes et rapides</td></tr>
+      <tr><td><strong>Aparté</strong></td><td>Le personnage parle au public, pas aux autres</td></tr>
+      <tr><td><strong>Monologue</strong></td><td>Un personnage seul sur scène qui parle</td></tr>
+      <tr><td><strong>Double énonciation</strong></td><td>Le perso parle à un autre ET au spectateur</td></tr>
+      <tr><td><strong>Quiproquo</strong></td><td>Malentendu entre personnages</td></tr>
+      <tr><td><strong>Coup de théâtre</strong></td><td>Retournement brutal de situation</td></tr>
+      <tr><td><strong>Ironie dramatique</strong></td><td>Le spectateur sait ce que le perso ignore</td></tr>
+      <tr><td><strong>Didascalie</strong></td><td>Indication scénique dans le texte</td></tr>
+      <tr><td><strong>Exposition</strong></td><td>Scène d'ouverture qui pose la situation</td></tr>
+      <tr><td><strong>Nœud tragique</strong></td><td>Moment de tension maximale</td></tr>
+      <tr><td><strong>Péripétie</strong></td><td>Retournement dans l'action</td></tr>
+      <tr><td><strong>Anagnorisis</strong></td><td>Moment de reconnaissance / révélation</td></tr>
+    </table></div>
+
+    <h3>Versification (Racine)</h3>
+    <div class="table-wrap"><table>
+      <tr><td><strong>Alexandrin</strong></td><td>Vers de 12 syllabes — mètre classique de Racine</td></tr>
+      <tr><td><strong>Hémistiche</strong></td><td>Moitié de l'alexandrin (6 syllabes)</td></tr>
+      <tr><td><strong>Césure</strong></td><td>Pause au milieu du vers (après la 6e syllabe)</td></tr>
+      <tr><td><strong>Rejet</strong></td><td>Mot important rejeté au vers suivant</td></tr>
+      <tr><td><strong>Enjambement</strong></td><td>La phrase déborde sur le vers suivant</td></tr>
+    </table></div>
+
+    <h3>Formules clés — Musset</h3>
+    <div class="formules-grid">
+      <div class="formule-card" onclick="this.classList.toggle('flipped')">
+        <div class="front"><div class="formule-prompt">Formule 1</div><div class="text">Coexistence rire / larmes</div></div>
+        <div class="back">« Musset <em>fait coexister</em> le rire et les larmes dans une fantaisie grinçante. »</div>
+      </div>
+      <div class="formule-card" onclick="this.classList.toggle('flipped')">
+        <div class="front"><div class="formule-prompt">Formule 2</div><div class="text">Parole comme acte qui blesse</div></div>
+        <div class="back">« Chez Musset, la <em>parole agit comme un acte</em> : les mots blessent autant qu'ils caressent. »</div>
+      </div>
+      <div class="formule-card" onclick="this.classList.toggle('flipped')">
+        <div class="front"><div class="formule-prompt">Formule 3</div><div class="text">Marivaudage assombri</div></div>
+        <div class="back">« Un <em>marivaudage assombri</em> où le badinage révèle la cruauté des sentiments. »</div>
+      </div>
+    </div>
+
+    <h3>Formules clés — Racine / Phèdre <span class="badge">NOUVEAU</span></h3>
+    <div class="formules-grid">
+      <div class="formule-card" onclick="this.classList.toggle('flipped')">
+        <div class="front"><div class="formule-prompt">Formule 1</div><div class="text">Victime de la fatalité divine</div></div>
+        <div class="back">« Phèdre est <em>victime de la fatalité divine</em> de Vénus : elle ne choisit pas d'aimer, elle est condamnée. »</div>
+      </div>
+      <div class="formule-card" onclick="this.classList.toggle('flipped')">
+        <div class="front"><div class="formule-prompt">Formule 2</div><div class="text">Aveu arraché</div></div>
+        <div class="back">« La stichomythie mime l'<em>aveu arraché</em> : Phèdre résiste, hésite, souffre de nommer son amour interdit. »</div>
+      </div>
+      <div class="formule-card" onclick="this.classList.toggle('flipped')">
+        <div class="front"><div class="formule-prompt">Formule 3</div><div class="text">Coupable et victime</div></div>
+        <div class="back">« Phèdre est à la fois <em>coupable et victime</em> : elle se juge elle-même tout en étant écrasée par le destin. »</div>
+      </div>
+      <div class="formule-card" onclick="this.classList.toggle('flipped')">
+        <div class="front"><div class="formule-prompt">Formule 4</div><div class="text">Passion comme maladie</div></div>
+        <div class="back">« Racine présente l'amour comme une <em>maladie incurable</em> — « D'un incurable amour remèdes impuissants » — qui détruit son porteur. »</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POÉSIE -->
+  <div class="genre-content" data-genre="poesie">
+    <h3>Formes et versification</h3>
+    <div class="table-wrap"><table>
+      <tr><td><strong>Sonnet</strong></td><td>14 vers : 2 quatrains + 2 tercets</td></tr>
+      <tr><td><strong>Verset</strong></td><td>Vers long sans mètre fixe (typique de Césaire)</td></tr>
+      <tr><td><strong>Vers libre</strong></td><td>Sans rime ni mètre régulier</td></tr>
+      <tr><td><strong>Enjambement</strong></td><td>La phrase déborde sur le vers suivant</td></tr>
+      <tr><td><strong>Rejet</strong></td><td>Mot important rejeté au début du vers suivant</td></tr>
+      <tr><td><strong>Anaphore</strong></td><td>Répétition en début de vers/phrase</td></tr>
+    </table></div>
+
+    <h3>Images et figures</h3>
+    <div class="table-wrap"><table>
+      <tr><td><strong>Métaphore filée</strong></td><td>Métaphore développée sur plusieurs vers</td></tr>
+      <tr><td><strong>Synesthésie</strong></td><td>Mélange de plusieurs sens (vue+ouïe+toucher) — typique Rimbaud</td></tr>
+      <tr><td><strong>Isotopie</strong></td><td>Réseau de mots du même champ lexical</td></tr>
+      <tr><td><strong>Le moi lyrique</strong></td><td>Le "je" du poète (pas forcément autobiographique)</td></tr>
+    </table></div>
+
+    <h3>Vocabulaire Rimbaud</h3>
+    <div class="table-wrap"><table>
+      <tr><td><strong>Poète voyant</strong></td><td>"Je est un autre" — voir au-delà du réel</td></tr>
+      <tr><td><strong>Dérèglement des sens</strong></td><td>Perturber la perception pour accéder à une vérité poétique</td></tr>
+      <tr><td><strong>Symbolisme</strong></td><td>Les objets symbolisent des états intérieurs</td></tr>
+      <tr><td><strong>Parnasse</strong></td><td>Culte de la beauté formelle, objectivité (Vénus Anadyomène)</td></tr>
+      <tr><td><strong>Contre-blason</strong></td><td>Portrait qui dévalorise au lieu d'idéaliser</td></tr>
+    </table></div>
+
+    <h3>Vocabulaire Césaire</h3>
+    <div class="table-wrap"><table>
+      <tr><td><strong>Négritude</strong></td><td>Mouvement : revalorisation de l'identité et culture noire</td></tr>
+      <tr><td><strong>Parole insurrectionnelle</strong></td><td>La langue comme arme de résistance</td></tr>
+      <tr><td><strong>Colonialisme</strong></td><td>Domination d'un peuple par un autre</td></tr>
+      <tr><td><strong>Aliénation</strong></td><td>Perte de son identité sous l'oppression</td></tr>
+      <tr><td><strong>Surréalisme</strong></td><td>Images inconscientes, écriture automatique</td></tr>
+    </table></div>
+
+    <h3>Formules clés — Rimbaud</h3>
+    <div class="formules-grid">
+      <div class="formule-card" onclick="this.classList.toggle('flipped')">
+        <div class="front"><div class="formule-prompt">Formule 1</div><div class="text">Transfiguration du réel</div></div>
+        <div class="back">« Le poète <em>opère une transfiguration</em> du réel, métamorphosant la misère en aventure cosmique. »</div>
+      </div>
+      <div class="formule-card" onclick="this.classList.toggle('flipped')">
+        <div class="front"><div class="formule-prompt">Formule 2</div><div class="text">Poétique de la rupture</div></div>
+        <div class="back">« Une <em>poétique de la rupture</em> où la sensualité crue désacralise les codes classiques. »</div>
+      </div>
+      <div class="formule-card" onclick="this.classList.toggle('flipped')">
+        <div class="front"><div class="formule-prompt">Formule 3</div><div class="text">Synesthésies rimbaldiennes</div></div>
+        <div class="back">« Les <em>synesthésies</em> rimbaldiennes — mêlant ouïe, vue, toucher — déploient une perception nouvelle. »</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ROMAN -->
+  <div class="genre-content" data-genre="roman">
+    <h3>Le narrateur</h3>
+    <div class="table-wrap"><table>
+      <tr><td><strong>Narrateur homodiégétique</strong></td><td>Le narrateur est dans l'histoire (ex : Des Grieux)</td></tr>
+      <tr><td><strong>Narrateur hétérodiégétique</strong></td><td>Le narrateur est extérieur à l'histoire</td></tr>
+      <tr><td><strong>Focalisation interne</strong></td><td>On voit par les yeux d'un personnage</td></tr>
+      <tr><td><strong>Focalisation zéro</strong></td><td>Narrateur omniscient, sait tout</td></tr>
+      <tr><td><strong>Analepse</strong></td><td>Retour en arrière (flashback)</td></tr>
+      <tr><td><strong>Récit rétrospectif</strong></td><td>L'histoire racontée après coup (ironie tragique)</td></tr>
+    </table></div>
+
+    <h3>Le portrait</h3>
+    <div class="table-wrap"><table>
+      <tr><td><strong>Prosopographie</strong></td><td>Portrait physique</td></tr>
+      <tr><td><strong>Éthopée</strong></td><td>Portrait moral / psychologique</td></tr>
+      <tr><td><strong>Blason</strong></td><td>Éloge poétique d'une partie du corps</td></tr>
+      <tr><td><strong>Topos</strong></td><td>Lieu commun littéraire (ex : coup de foudre)</td></tr>
+      <tr><td><strong>Idéalisation / hyperbole</strong></td><td>Rendre parfait, sublimer par exagération</td></tr>
+    </table></div>
+
+    <h3>Formules clés — Prévost / Lafayette</h3>
+    <div class="formules-grid">
+      <div class="formule-card" onclick="this.classList.toggle('flipped')">
+        <div class="front"><div class="formule-prompt">Prévost</div><div class="text">Récit rétrospectif et tension tragique</div></div>
+        <div class="back">« Le <em>récit rétrospectif</em> crée une ironie tragique : le narrateur sait la fin que le personnage ignore. »</div>
+      </div>
+      <div class="formule-card" onclick="this.classList.toggle('flipped')">
+        <div class="front"><div class="formule-prompt">Lafayette</div><div class="text">Psychologie en demi-teintes</div></div>
+        <div class="back">« Une <em>psychologie en demi-teintes</em> où rien ne se dit, tout se devine. »</div>
+      </div>
+      <div class="formule-card" onclick="this.classList.toggle('flipped')">
+        <div class="front"><div class="formule-prompt">Lafayette</div><div class="text">Portrait-éblouissement</div></div>
+        <div class="back">« Le portrait <em>fonctionne comme un éblouissement</em>, l'excellence du personnage posée comme un absolu. »</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ESSAI -->
+  <div class="genre-content" data-genre="essai">
+    <h3>Stratégies argumentatives</h3>
+    <div class="table-wrap"><table>
+      <tr><td><strong>Thèse</strong></td><td>L'idée principale défendue</td></tr>
+      <tr><td><strong>Réfutation</strong></td><td>Détruire l'argument adverse</td></tr>
+      <tr><td><strong>Concession</strong></td><td>Admettre une partie de l'argument adverse pour mieux le réfuter</td></tr>
+      <tr><td><strong>Raisonnement par l'absurde</strong></td><td>Pousser une idée à l'extrême pour montrer qu'elle est fausse</td></tr>
+      <tr><td><strong>Syllogisme</strong></td><td>Raisonnement en 3 temps (si A alors B, or A, donc B)</td></tr>
+      <tr><td><strong>Paradoxe</strong></td><td>Idée qui semble contradictoire mais est vraie</td></tr>
+    </table></div>
+
+    <h3>Figures de l'argumentation</h3>
+    <div class="table-wrap"><table>
+      <tr><td><strong>Ironie / Antiphrase</strong></td><td>Dire le contraire de ce qu'on pense</td></tr>
+      <tr><td><strong>Question rhétorique</strong></td><td>Question sans réponse attendue, pour convaincre</td></tr>
+      <tr><td><strong>Apostrophe</strong></td><td>Interpellation directe du lecteur</td></tr>
+      <tr><td><strong>Prétérition</strong></td><td>Dire qu'on ne va pas dire... et le dire quand même</td></tr>
+      <tr><td><strong>Gradation</strong></td><td>Accumulation en ordre croissant ou décroissant</td></tr>
+    </table></div>
+
+    <h3>Vocabulaire La Boétie / Voltaire</h3>
+    <div class="table-wrap"><table>
+      <tr><td><strong>Servitude volontaire</strong></td><td>Obéir librement à un tyran sans y être forcé</td></tr>
+      <tr><td><strong>Humanisme</strong></td><td>Mouvement XVIe : l'homme au centre, dignité humaine</td></tr>
+      <tr><td><strong>Éloquence</strong></td><td>Art de bien parler/écrire pour convaincre</td></tr>
+      <tr><td><strong>Conte philosophique</strong></td><td>Genre fictif au service d'une idée critique (Voltaire)</td></tr>
+      <tr><td><strong>Fausse naïveté</strong></td><td>Faire semblant de ne pas comprendre pour dénoncer</td></tr>
+      <tr><td><strong>Ironie voltairienne</strong></td><td>Ton léger pour dire des choses graves</td></tr>
+    </table></div>
+  </div>
+
+  <!-- FIGURES DE STYLE -->
+  <div class="genre-content" data-genre="figures">
+    <h3>Les 12 figures indispensables — pour tous les textes</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Figure</th><th>Définition</th><th>Exemple</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Métaphore</strong></td><td>Comparaison sans "comme"</td><td>"Cette femme est un volcan"</td></tr>
+        <tr><td><strong>Comparaison</strong></td><td>Avec "comme" / "tel"</td><td>"Comme un volcan"</td></tr>
+        <tr><td><strong>Hyperbole</strong></td><td>Exagération</td><td>"Je t'ai dit mille fois"</td></tr>
+        <tr><td><strong>Litote</strong></td><td>Dire moins pour plus</td><td>"Ce n'est pas mal" = très bien</td></tr>
+        <tr><td><strong>Euphémisme</strong></td><td>Atténuer une réalité dure</td><td>"Il nous a quittés" = mort</td></tr>
+        <tr><td><strong>Oxymore</strong></td><td>Mots contradictoires ensemble</td><td>"Belle hideusement"</td></tr>
+        <tr><td><strong>Antithèse</strong></td><td>Opposition de 2 idées</td><td>"Je vis, je meurs"</td></tr>
+        <tr><td><strong>Anaphore</strong></td><td>Répétition en début</td><td>"J'aime… J'aime…"</td></tr>
+        <tr><td><strong>Personnification</strong></td><td>Humaniser un objet</td><td>"La rivière chante"</td></tr>
+        <tr><td><strong>Ironie</strong></td><td>Dire le contraire</td><td>Ton détaché sur l'horreur</td></tr>
+        <tr><td><strong>Question rhétorique</strong></td><td>Sans réponse attendue</td><td>"Peut-on aimer librement ?"</td></tr>
+        <tr><td><strong>Gradation</strong></td><td>Montée en intensité</td><td>"Je le vis, je rougis, je pâlis"</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<!-- ============ FICHE 3 — FLASHCARDS VOCAB ============ -->
+<section class="panel" id="vocab">
+  <div class="fiche-header">
+    <div class="fiche-num">Fiche III</div>
+    <h1 class="fiche-title">Flashcards vocabulaire</h1>
+    <p class="fiche-desc">Clique sur la carte pour voir la définition — entraîne-toi jusqu'à tout connaître</p>
+  </div>
+
+  <div id="scoreBox" style="margin-bottom:1rem;">
+    <div class="score-text">Cartes retournées : <span id="scoreCount">0</span> / <span id="scoreTotal">0</span></div>
+    <div class="score-bar"><div class="score-fill" id="scoreFill" style="width:0%"></div></div>
+  </div>
+
+  <div class="genre-tabs" id="vocabGenreTabs">
+    <button class="genre-btn active" data-vgenre="tragedie">🎭 Tragédie</button>
+    <button class="genre-btn" data-vgenre="theatre-formes">Formes théâtre</button>
+    <button class="genre-btn" data-vgenre="versification">Versification</button>
+    <button class="genre-btn" data-vgenre="poesie-vocab">🌹 Poésie</button>
+    <button class="genre-btn" data-vgenre="roman-vocab">📖 Roman</button>
+    <button class="genre-btn" data-vgenre="essai-vocab">💭 Essai</button>
+    <button class="genre-btn" data-vgenre="figures-vocab">✨ Figures</button>
+  </div>
+
+  <div id="vocabContainer"></div>
+</section>
+
+<!-- ============ FICHE 4 — JOUR J ============ -->
+<section class="panel" id="fiche3">
+  <div class="fiche-header">
+    <div class="fiche-num">Fiche IV</div>
+    <h1 class="fiche-title">Méthode jour J</h1>
+    <p class="fiche-desc">Intro, paragraphe, conclusion — structures réutilisables</p>
+  </div>
+
+  <h2><span class="num">§1</span> L'introduction parfaite</h2>
+  <div class="quote-block">
+    <strong>1. AMORCE</strong> (contexte : mouvement, époque)<br>
+    <strong>2. PRÉSENTATION</strong> (titre, date, situation)<br>
+    <strong>3. PROBLÉMATIQUE</strong> (la question)<br>
+    <strong>4. ANNONCE DU PLAN</strong> (2-3 mouvements)
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-tag">Modèle</span><span class="exercise-title">Intro — Le Dormeur du val</span></div>
+    <div class="exercise-body">
+      <button class="btn" onclick="toggleCorr(this)">Voir l'intro modèle</button>
+      <div class="correction"><div class="correction-label">Introduction complète</div>La poésie du XIX<sup>e</sup> siècle, marquée par les guerres, devient souvent un lieu d'engagement masqué. C'est le cas de Rimbaud, jeune poète de seize ans, qui compose en 1870, en pleine guerre franco-prussienne, <em>Le Dormeur du val</em>. Ce sonnet semble d'abord peindre un tableau bucolique avant de basculer dans l'horreur. Comment Rimbaud <em>transforme-t-il l'apparente quiétude pastorale en violente dénonciation de la guerre</em> ? Nous verrons d'abord le tableau idyllique, puis l'ambiguïté du soldat endormi, enfin la chute terrible du dernier vers.</div>
+    </div>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-tag">Modèle</span><span class="exercise-title">Intro — Phèdre (Racine) <span class="badge">NOUVEAU</span></span></div>
+    <div class="exercise-body">
+      <button class="btn" onclick="toggleCorr(this)">Voir l'intro modèle</button>
+      <div class="correction"><div class="correction-label">Introduction complète</div>Le XVII<sup>e</sup> siècle classique est marqué par le Classicisme qui explore les passions dans le cadre strict des règles de la tragédie. C'est dans ce contexte que Jean Racine publie en 1677 <em>Phèdre</em>, tragédie en alexandrins. Dans cet extrait, Phèdre avoue à Œnone son amour interdit pour Hippolyte, beau-fils de son époux Thésée. Comment cette tirade tragique révèle-t-elle les tourments d'un amour à la fois subi et coupable ? Nous verrons d'abord le lyrisme de la tirade, puis la puissance du sentiment amoureux, enfin la révélation tragique.</div>
+    </div>
+  </div>
+
+  <h2><span class="num">§2</span> Le paragraphe d'analyse</h2>
+  <div class="quote-block">
+    <strong>1. PHRASE-IDÉE</strong><br>
+    <strong>2. CITATION + procédé</strong><br>
+    <strong>3. EFFET sur le lecteur/spectateur</strong><br>
+    <strong>4. LIEN avec le sens global</strong><br>
+    <strong>5. TRANSITION</strong>
+  </div>
+
+  <div class="exercise">
+    <div class="exercise-header"><span class="exercise-tag">Modèle</span><span class="exercise-title">Paragraphe — Phèdre <span class="badge">NOUVEAU</span></span></div>
+    <div class="exercise-body">
+      <button class="btn" onclick="toggleCorr(this)">Voir le paragraphe modèle</button>
+      <div class="correction"><div class="correction-label">Paragraphe complet</div>Racine met en scène la difficulté de Phèdre à avouer ses sentiments. En effet, la stichomythie — les répliques brèves alternées entre Phèdre et Œnone — mime la résistance de Phèdre à nommer son amour : « J'aime… À ce nom fatal, je tremble, je frissonne. J'aime… ». La gradation et la répétition haletante du verbe « j'aime » traduisent l'aveu arraché, rendant visible au spectateur la souffrance d'une femme écrasée par la fatalité de Vénus. Cette scène fondatrice pose Phèdre comme à la fois victime et coupable, ce qui est au cœur de l'esthétique tragique racinienne.</div>
+    </div>
+  </div>
+
+  <h2><span class="num">§3</span> Spécial oral</h2>
+  <h3>Phrases de raccrochage</h3>
+  <div class="citation-list"><ul>
+    <li>Ce passage est particulièrement révélateur car...</li>
+    <li>On peut observer ici un procédé caractéristique de l'auteur...</li>
+    <li>Il convient ici de souligner que...</li>
+    <li>Ce mouvement du texte mérite qu'on s'y attarde...</li>
+  </ul></div>
+
+  <h3>Conclusion type</h3>
+  <div class="quote-block">« Ainsi, [réponse à la problématique]. Ce texte <em>illustre / annonce / s'inscrit dans</em> [ouverture]. »</div>
+
+  <h3>⚠️ Question de grammaire — 2 points à ne pas perdre</h3>
+  <div class="checklist">
+    <div class="check-item" onclick="this.classList.toggle('done')"><div class="check-box"></div><div class="check-text">Les propositions subordonnées (relatives, conjonctives, complétives)</div></div>
+    <div class="check-item" onclick="this.classList.toggle('done')"><div class="check-box"></div><div class="check-text">L'interrogation (directe / indirecte, partielle / totale)</div></div>
+    <div class="check-item" onclick="this.classList.toggle('done')"><div class="check-box"></div><div class="check-text">La négation (formes et valeurs)</div></div>
+    <div class="check-item" onclick="this.classList.toggle('done')"><div class="check-box"></div><div class="check-text">Fonctions grammaticales (sujet, COD, COI, CC...)</div></div>
+  </div>
+
+  <h2><span class="num">§4</span> Boîte à citations</h2>
+  <div class="citation-list"><h4>Le Dormeur du val</h4><ul>
+    <li>Il a deux trous rouges au côté droit</li><li>Un soldat jeune, bouche ouverte</li><li>Nature, berce-le chaudement</li>
+  </ul></div>
+  <div class="citation-list"><h4>Ma Bohème</h4><ul>
+    <li>Mon paletot aussi devenait idéal</li><li>Petit-Poucet rêveur</li><li>Mes étoiles au ciel avaient un doux frou-frou</li>
+  </ul></div>
+  <div class="citation-list"><h4>Phèdre — Racine <span class="badge">NOUVEAU</span></h4><ul>
+    <li>J'aime… À ce nom fatal, je tremble, je frissonne</li>
+    <li>D'un incurable amour remèdes impuissants</li>
+    <li>C'est Vénus tout entière à sa proie attachée</li>
+    <li>Je le vis, je rougis, je pâlis à sa vue</li>
+  </ul></div>
+  <div class="citation-list"><h4>Princesse de Clèves</h4><ul>
+    <li>Il parut alors une beauté à la cour</li><li>Une blancheur éclatante</li>
+  </ul></div>
+  <div class="citation-list"><h4>Manon Lescaut</h4><ul>
+    <li>Je me trouvai enflammé tout d'un coup</li><li>Charme inexplicable</li>
+  </ul></div>
+  <div class="citation-list"><h4>Candide ch.19</h4><ul>
+    <li>C'est à ce prix que vous mangez du sucre en Europe</li>
+  </ul></div>
+</section>
+
+<!-- ============ FICHE 5 — OUTILS ============ -->
+<section class="panel" id="outils">
+  <div class="fiche-header">
+    <div class="fiche-num">Fiche V</div>
+    <h1 class="fiche-title">Outils de travail</h1>
+    <p class="fiche-desc">Timer, checklists et plan de révision</p>
+  </div>
+
+  <h2><span class="num">§1</span> Timer d'entraînement</h2>
+  <div class="timer-widget">
+    <div class="timer-label">Explication linéaire</div>
+    <div class="timer-display" id="timerDisplay">08:00</div>
+    <div class="timer-controls">
+      <button class="timer-btn" onclick="setTimer(480)">8 min (oral)</button>
+      <button class="timer-btn" onclick="setTimer(600)">10 min (intro)</button>
+      <button class="timer-btn" onclick="setTimer(1800)">30 min (§)</button>
+      <button class="timer-btn" onclick="setTimer(7200)">2h (commentaire)</button>
+      <button class="timer-btn" onclick="toggleTimer()">▶ Start / Pause</button>
+      <button class="timer-btn" onclick="resetTimer()">↺ Reset</button>
+    </div>
+  </div>
+
+  <h2><span class="num">§2</span> Plan de révision — 1 mois</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Semaine</th><th>Objectif</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Semaine 1</strong></td><td>Vocabulaire tragédie (11 mots) + figures de style (12) + exercices paraphrase</td></tr>
+      <tr><td><strong>Semaine 2</strong></td><td>Vocabulaire poésie (Rimbaud + Césaire) + fiches orales Rimbaud</td></tr>
+      <tr><td><strong>Semaine 3</strong></td><td>Roman + Essai + fiches Manon / Lafayette / La Boétie / Voltaire</td></tr>
+      <tr><td><strong>Semaine 4</strong></td><td>2 commentaires complets en conditions réelles + 2 oraux chronométrés</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2><span class="num">§3</span> Checklist avant le bac</h2>
+  <div class="checklist">
+    <div class="check-item" onclick="this.classList.toggle('done')"><div class="check-box"></div><div class="check-text">11 mots du vocabulaire tragique par cœur</div></div>
+    <div class="check-item" onclick="this.classList.toggle('done')"><div class="check-box"></div><div class="check-text">12 figures de style par cœur</div></div>
+    <div class="check-item" onclick="this.classList.toggle('done')"><div class="check-box"></div><div class="check-text">Vocabulaire poésie (Rimbaud + Césaire)</div></div>
+    <div class="check-item" onclick="this.classList.toggle('done')"><div class="check-box"></div><div class="check-text">Vocabulaire roman (narrateur, portrait)</div></div>
+    <div class="check-item" onclick="this.classList.toggle('done')"><div class="check-box"></div><div class="check-text">Vocabulaire essai (argumentation)</div></div>
+    <div class="check-item" onclick="this.classList.toggle('done')"><div class="check-box"></div><div class="check-text">2 intros modèles apprises par cœur</div></div>
+    <div class="check-item" onclick="this.classList.toggle('done')"><div class="check-box"></div><div class="check-text">12 formules d'analyse (3 par genre)</div></div>
+    <div class="check-item" onclick="this.classList.toggle('done')"><div class="check-box"></div><div class="check-text">Citations clés par texte</div></div>
+    <div class="check-item" onclick="this.classList.toggle('done')"><div class="check-box"></div><div class="check-text">4 points de grammaire révisés</div></div>
+    <div class="check-item" onclick="this.classList.toggle('done')"><div class="check-box"></div><div class="check-text">2 commentaires en conditions réelles</div></div>
+    <div class="check-item" onclick="this.classList.toggle('done')"><div class="check-box"></div><div class="check-text">S'enregistrer à l'oral et se réécouter</div></div>
+  </div>
+
+  <h2><span class="num">§4</span> Les 5 erreurs à ne plus faire</h2>
+  <div class="table-wrap"><table>
+    <tr><th>✗ Erreur</th><th>✓ Solution</th></tr>
+    <tr><td>Raconter ce qui se passe</td><td>Analyser POURQUOI l'auteur a écrit ça</td></tr>
+    <tr><td>« L'auteur dit / montre / décrit »</td><td>Verbes précis (suggère, dévoile, martèle...)</td></tr>
+    <tr><td>Citation sans procédé ni effet</td><td>Toujours QUOI + COMMENT + POURQUOI</td></tr>
+    <tr><td>Ignorer le genre du texte</td><td>Utiliser le vocabulaire spécifique (tirade, fatalité...)</td></tr>
+    <tr><td>Conclusion qui répète l'intro</td><td>Synthèse + ouverture sur autre texte</td></tr>
+  </table></div>
+
+  <div class="key-rule" style="margin-top:2rem;">
+    <strong>Le secret</strong>
+    <p style="margin-top:0.5rem;">Mieux vaut <em>20 mots de vocabulaire maîtrisés + 12 formules solides</em> que 200 idées vagues. Le jour J, la mémoire l'emporte sur l'improvisation.</p>
+  </div>
+</section>
+
+</main>
+
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<footer>
+  <div class="footer-quote">« Je est un autre. »</div>
+  <div class="footer-attr">— Arthur Rimbaud</div>
+</footer>
+
+<script>
+// TABS
+const tabs = document.querySelectorAll('.tab');
+const panels = document.querySelectorAll('.panel');
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    tabs.forEach(t => t.classList.remove('active'));
+    panels.forEach(p => p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.panel).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+
+// GENRE TABS (fiche2)
+document.querySelectorAll('.genre-btn[data-genre]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const parent = btn.closest('section') || document;
+    parent.querySelectorAll('.genre-btn[data-genre]').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.genre-content[data-genre]').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelector(`.genre-content[data-genre="${btn.dataset.genre}"]`).classList.add('active');
+  });
+});
+
+// CORRECTIONS
+function toggleCorr(btn) {
+  const corr = btn.nextElementSibling;
+  corr.classList.toggle('shown');
+  btn.textContent = corr.classList.contains('shown') ? 'Masquer la correction' : 'Voir la correction';
+}
+
+// VOCAB DATA
+const vocabData = {
+  tragedie: [
+    {term:"Fatalité / fatum", def:"Destin inévitable qui écrase le héros tragique — il ne peut pas échapper à son sort"},
+    {term:"Hubris", def:"Démesure du personnage qui provoque sa chute — excès qui attire la punition des dieux"},
+    {term:"Catharsis", def:"Purification des passions ressentie par le spectateur devant la tragédie"},
+    {term:"Hamartia", def:"La faute tragique du héros — souvent involontaire, elle déclenche la chute"},
+    {term:"Bienséance", def:"Règle classique : on ne montre pas la violence sur scène"},
+    {term:"Vraisemblance", def:"Tout doit paraître possible et crédible aux yeux du public"},
+    {term:"Règle des 3 unités", def:"Unité de temps (24h max), de lieu (un seul endroit), d'action (une seule intrigue)"},
+    {term:"Nœud tragique", def:"Moment de tension maximale dans la pièce — le point de non-retour"},
+    {term:"Péripétie", def:"Retournement de situation dans l'action dramatique"},
+    {term:"Anagnorisis", def:"Moment de reconnaissance ou de révélation brutale"},
+    {term:"Dénouement", def:"Résolution finale de l'action — souvent la mort dans la tragédie"},
+  ],
+  "theatre-formes": [
+    {term:"Tirade", def:"Long discours d'un seul personnage sans interruption"},
+    {term:"Stichomythie", def:"Échange de répliques très courtes et rapides entre deux personnages"},
+    {term:"Aparté", def:"Le personnage parle au public sans que les autres personnages l'entendent"},
+    {term:"Monologue", def:"Un personnage seul sur scène qui parle — souvent révèle ses pensées intimes"},
+    {term:"Double énonciation", def:"Le personnage parle à un autre ET au spectateur en même temps"},
+    {term:"Quiproquo", def:"Malentendu entre personnages — ressort comique ou dramatique"},
+    {term:"Coup de théâtre", def:"Retournement brutal et inattendu de la situation"},
+    {term:"Ironie dramatique", def:"Le spectateur sait quelque chose que le personnage ignore"},
+    {term:"Didascalie", def:"Indication scénique dans le texte (en italique)"},
+    {term:"Exposition", def:"Scène(s) d'ouverture qui pose la situation, les personnages, le contexte"},
+  ],
+  versification: [
+    {term:"Alexandrin", def:"Vers de 12 syllabes — mètre classique par excellence (Racine, Corneille)"},
+    {term:"Hémistiche", def:"Chaque moitié de l'alexandrin = 6 syllabes"},
+    {term:"Césure", def:"Pause obligatoire au milieu du vers (après la 6e syllabe)"},
+    {term:"Rejet", def:"Mot ou groupe rejeté au début du vers suivant pour le mettre en valeur"},
+    {term:"Contre-rejet", def:"Mot anticipé à la fin du vers, appartenant à la phrase suivante"},
+    {term:"Enjambement", def:"La phrase déborde sur le vers suivant — crée un effet de mouvement"},
+    {term:"Diérèse", def:"Une syllabe prononcée en deux (ex: vi-o-lon) — allonge le vers"},
+    {term:"Allitération", def:"Répétition d'une même consonne (ex: 'Pour qui sont ces serpents...')"},
+    {term:"Assonance", def:"Répétition d'une même voyelle dans plusieurs mots proches"},
+    {term:"Quatrain", def:"Strophe de 4 vers"},
+    {term:"Tercet", def:"Strophe de 3 vers"},
+    {term:"Sonnet", def:"Forme fixe : 2 quatrains + 2 tercets = 14 vers"},
+  ],
+  "poesie-vocab": [
+    {term:"Moi lyrique", def:"Le 'je' du poème — pas forcément autobiographique, c'est une voix poétique"},
+    {term:"Synesthésie", def:"Mélange de plusieurs sens (vue + ouïe + toucher) — très typique de Rimbaud"},
+    {term:"Métaphore filée", def:"Métaphore développée et entretenue sur plusieurs vers"},
+    {term:"Isotopie", def:"Réseau de mots appartenant au même champ lexical"},
+    {term:"Verset", def:"Vers long sans mètre fixe — typique de Césaire et de la Bible"},
+    {term:"Négritude", def:"Mouvement littéraire : revalorisation de l'identité, culture et histoire noire (Césaire)"},
+    {term:"Poète voyant", def:"Conception rimbaldienne : le poète voit au-delà du réel — 'Je est un autre'"},
+    {term:"Dérèglement des sens", def:"Méthode rimbaldienne : perturber la perception pour accéder à une vérité poétique"},
+    {term:"Parnasse", def:"Mouvement poétique : culte de la beauté formelle, objectivité, art pour l'art"},
+    {term:"Symbolisme", def:"Mouvement : les objets symbolisent des états intérieurs et des émotions"},
+    {term:"Contre-blason", def:"Portrait qui dévalorise et critique au lieu d'idéaliser (ex: Vénus Anadyomène)"},
+    {term:"Parole insurrectionnelle", def:"La langue comme arme de résistance politique et identitaire (Césaire)"},
+  ],
+  "roman-vocab": [
+    {term:"Narrateur homodiégétique", def:"Le narrateur est un personnage dans l'histoire (ex: Des Grieux dans Manon Lescaut)"},
+    {term:"Narrateur hétérodiégétique", def:"Le narrateur est extérieur à l'histoire — ne participe pas aux événements"},
+    {term:"Focalisation interne", def:"On voit les événements par les yeux et pensées d'un personnage"},
+    {term:"Focalisation externe", def:"Le narrateur voit de l'extérieur comme une caméra — sans accès aux pensées"},
+    {term:"Focalisation zéro", def:"Narrateur omniscient — sait tout sur tous les personnages"},
+    {term:"Analepse", def:"Retour en arrière dans le récit (flashback)"},
+    {term:"Récit rétrospectif", def:"L'histoire est racontée après coup — crée une ironie tragique (le narrateur sait la fin)"},
+    {term:"Prosopographie", def:"Portrait physique d'un personnage"},
+    {term:"Éthopée", def:"Portrait moral et psychologique d'un personnage"},
+    {term:"Blason", def:"Éloge poétique d'une partie du corps féminin — tradition littéraire"},
+    {term:"Topos", def:"Lieu commun littéraire récurrent (ex: coup de foudre, rencontre amoureuse)"},
+    {term:"In medias res", def:"L'histoire commence au milieu de l'action sans explication préalable"},
+  ],
+  "essai-vocab": [
+    {term:"Thèse", def:"L'idée principale que l'auteur défend dans son texte argumentatif"},
+    {term:"Réfutation", def:"Stratégie qui consiste à détruire l'argument adverse"},
+    {term:"Concession", def:"Admettre une partie de l'argument adverse pour mieux le réfuter ensuite"},
+    {term:"Raisonnement par l'absurde", def:"Pousser une idée à l'extrême pour montrer qu'elle mène à une contradiction"},
+    {term:"Syllogisme", def:"Raisonnement logique en 3 temps : si A alors B, or A, donc B"},
+    {term:"Paradoxe", def:"Idée qui semble contradictoire au premier abord mais qui révèle une vérité"},
+    {term:"Prétérition", def:"Dire qu'on ne va pas dire quelque chose... tout en le disant quand même"},
+    {term:"Apostrophe", def:"Interpellation directe du lecteur ou d'une entité absente"},
+    {term:"Servitude volontaire", def:"Concept de La Boétie : obéir librement à un tyran sans y être forcé"},
+    {term:"Humanisme", def:"Mouvement XVIe siècle : l'homme au centre, foi en la dignité et la raison humaine"},
+    {term:"Conte philosophique", def:"Genre voltairien : histoire fictive légère au service d'une critique sérieuse"},
+    {term:"Fausse naïveté", def:"Stratégie de Voltaire : faire semblant de ne pas comprendre pour mieux dénoncer"},
+  ],
+  "figures-vocab": [
+    {term:"Métaphore", def:"Comparaison sans outil comparatif ('comme') — 'Cette femme est un volcan'"},
+    {term:"Comparaison", def:"Rapprochement explicite avec 'comme', 'tel', 'ainsi que'"},
+    {term:"Hyperbole", def:"Exagération volontaire pour amplifier un effet — 'Je t'ai dit mille fois'"},
+    {term:"Litote", def:"Dire moins pour suggérer plus — 'Ce n'est pas mal' = c'est très bien"},
+    {term:"Euphémisme", def:"Atténuer une réalité dure — 'Il nous a quittés' pour dire 'il est mort'"},
+    {term:"Oxymore", def:"Deux mots contradictoires ensemble — 'Belle hideusement', 'douce violence'"},
+    {term:"Antithèse", def:"Opposition de deux idées dans la même phrase — 'Je vis, je meurs'"},
+    {term:"Anaphore", def:"Répétition d'un mot ou groupe en début de phrase — 'J'aime… J'aime…'"},
+    {term:"Personnification", def:"Attribuer des traits humains à un objet ou animal — 'la rivière chante'"},
+    {term:"Ironie / Antiphrase", def:"Dire le contraire de ce qu'on pense pour provoquer un effet critique"},
+    {term:"Question rhétorique", def:"Question sans réponse attendue — l'effet est dans la question elle-même"},
+    {term:"Gradation", def:"Suite de termes en ordre croissant ou décroissant — 'Je le vis, je rougis, je pâlis'"},
+  ]
+};
+
+// RENDER VOCAB CARDS
+let flippedCount = 0;
+function renderVocabCards(genre) {
+  const container = document.getElementById('vocabContainer');
+  const cards = vocabData[genre] || [];
+  flippedCount = 0;
+  document.getElementById('scoreTotal').textContent = cards.length;
+  document.getElementById('scoreCount').textContent = 0;
+  document.getElementById('scoreFill').style.width = '0%';
+  
+  container.innerHTML = '<div class="vocab-grid">' + cards.map((c,i) => `
+    <div class="vocab-card" onclick="flipVocab(this, ${cards.length})">
+      <div class="front">
+        <div class="vocab-hint">Clique pour la définition</div>
+        <div class="vocab-term">${c.term}</div>
+      </div>
+      <div class="back">${c.def}</div>
+    </div>
+  `).join('') + '</div>';
+}
+
+function flipVocab(card, total) {
+  const wasFlipped = card.classList.contains('flipped');
+  card.classList.toggle('flipped');
+  if (!wasFlipped) {
+    flippedCount++;
+  } else {
+    flippedCount--;
+  }
+  flippedCount = Math.max(0, flippedCount);
+  document.getElementById('scoreCount').textContent = flippedCount;
+  document.getElementById('scoreFill').style.width = (flippedCount / total * 100) + '%';
+}
+
+// VOCAB GENRE TABS
+document.querySelectorAll('.genre-btn[data-vgenre]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.genre-btn[data-vgenre]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderVocabCards(btn.dataset.vgenre);
+  });
+});
+
+renderVocabCards('tragedie');
+
+// TIMER
+let timerSeconds = 480, timerInterval = null, timerRunning = false;
+function updateDisplay() {
+  const m = Math.floor(timerSeconds/60).toString().padStart(2,'0');
+  const s = (timerSeconds%60).toString().padStart(2,'0');
+  document.getElementById('timerDisplay').textContent = `${m}:${s}`;
+}
+function setTimer(s) { clearInterval(timerInterval); timerRunning=false; timerSeconds=s; updateDisplay(); }
+function toggleTimer() {
+  if (timerRunning) { clearInterval(timerInterval); timerRunning=false; }
+  else {
+    timerRunning=true;
+    timerInterval=setInterval(()=>{
+      if(timerSeconds<=0){ clearInterval(timerInterval); timerRunning=false; alert('⏰ Temps écoulé !'); return; }
+      timerSeconds--; updateDisplay();
+    },1000);
+  }
+}
+function resetTimer() { clearInterval(timerInterval); timerRunning=false; timerSeconds=480; updateDisplay(); }
+updateDisplay();
+
+// PROGRESS BAR + SCROLL
+window.addEventListener('scroll', () => {
+  const pct = (window.scrollY/(document.documentElement.scrollHeight-window.innerHeight))*100;
+  document.getElementById('progressBar').style.width = pct+'%';
+  document.getElementById('scrollTop').classList.toggle('visible', window.scrollY>400);
+});
+</script>
+</body>
+</html>
